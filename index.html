@@ -1,94 +1,49 @@
 <!DOCTYPE html>
 <html lang="tl-PH">
-    <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagsasanay Reposetory</title>
-        <link rel="icon" href="robin.ico" type="image/x-icon">
+    <title>try hover to preview tag</title>
     <style>
-        body {
-            background-color: antiquewhite;
+        /*pre:hover {
+            color: blue;
+        }*/
+        body {color: beige;}
+        li:hover {
+            color: rgb(248, 16, 16);
         }
-
-         /* 1. Dito ang istilo — itago ang lahat ng pahina maliban sa nakabukas */
-    .pahina { display: none; }
-    .aktibo { display: block; }
-    button { margin: 5px; padding: 8px 12px; cursor: pointer; }
-        pre {
-            color: brown;
-            font-size: 20px;
+        li {
+            font-size: 15px;
+            font-weight: bold;
+            color: blueviolet;
         }
+        lu {font-size: 20px; color: blue; font-weight: bold;}
     </style>
+</head>
+<body>
+    <div>
+    <pre>
+<lu>    PABALAT</lu>
+<li>1st Class Harina    650 g</li>
+<li>3rd Class Harina    100 g</li>
+<li>Asukal              150 g</li>
+<li>Asin                8 g</li>
+<li>Lebadura(yeast)     1/2 tbsp</li>
+<li>Baking Powder       1/2 tbsp</li>
+<li>Tubig               3/4 lata</li>
+<li>Lard                25 g</li>
+<li>Margarine           12 g</li>
 
-    </head>
-    <body>
-        <pre>
-            Ito ay pagsasanay lang kaya makikita na iba iba ang laman ng Reposetory
-            ito para subukan sa windows at mobile at sa ibang device na may ibat ibang laki ng screen,
-            at iba pa, maraming salamat!
-        </pre>
-        
-<!--        <h2>TORTA</h2>
-    <img src="Torta.jpg" alt="Kababayan" class="litrato">
-
-    <br><br>
-    <a href="larawan_ng_tinapay_menu.html" class="balik">⬅ BALIK SA LISTAHAN</a>
-    <br>
-    <a href="timpla_tinapay2.html" class="balik">🏠 BALIK SA PANGUNAHING MENU</a>   --> 
-
-    <!--============================================================================-->
-    <div id="menu" class="pahina aktibo">
-    <h1>🥯 Menu ng Tinapay</h1>
-    <button onclick="buksan('tinapayA')">Tinapay A</button>
-  </div>
-
-  <div id="tinapayA" class="pahina">
-    <h2>Tinapay A</h2>
-    <button onclick="buksan('menu')">⬅️ Balik sa Menu</button>
-    <button onclick="buksan('tinapayA_sangkap')">📋 Mga Sangkap</button>
-  </div>
-
-  <div id="tinapayA_sangkap" class="pahina">
-    <h2>Sangkap ng Tinapay A</h2>
-    <button onclick="buksan('tinapayA')">⬅️ Balik sa Tinapay</button>
-    <button onclick="buksan('menu')">🏠 Diretso sa Menu</button>
-  </div>
-  <!--=================================================================================-->
-  <script>
-    alert("KUMUSTA PO"); // java script pwedi sa loob ng head o sa loob ng body
-
-    function buksan(pangalan) {
-  aydaanLahat(); // Itago lahat muna
-  ipakita(pangalan); // Ipakita ang napiling pahina
-
-  // ↓ ITO ANG UNA — ILAGAY SA KASAYSAYAN ↓
-  history.pushState({pahina: pangalan}, '', '#' + pangalan);
-}
-
-// ↓ ITO ANG PANGALAWA — KAPAG PININDOT ANG BACK BUTTON ↓
-window.onpopstate = function(e) {
-  if (e.state && e.state.pahina) {
-    aydaanLahat();
-    ipakita(e.state.pahina);
-  }
-};
-
-// ==============================================
-// MGA TULONG NA GAWAIN — SA ILALIM NITO
-// ==============================================
-function aydaanLahat() {
-  document.querySelectorAll('.pahina').forEach(p => p.classList.remove('aktibo'));
-}
-
-function ipakita(pangalan) {
-  document.getElementById(pangalan).classList.add('aktibo');
-}
-
-// ✅ Para gumana kapag binuksan ang link na may #tandaan sa dulo
-window.onload = function() {
-  const kasunod = location.hash.replace('#', '');
-  if (kasunod) buksan(kasunod);
-};
-  </script>
-    </body>
+<lu>    PALAMAN</lu>
+<li>Asukal              400 g</li>
+<li>Pangkulay           Lemon Yellow</li>
+<li>Tubig               4 1/2 lata</li>
+<li>Pineapple Powder    1/2 pakete</li>
+<li>Margarine           50 g</li>
+<lu>    PANG-APAL</lu>
+<li>Cornstarch          350 g</li>
+<li>Tubig               1 1/2 lata</li>
+    </pre>
+    </div>
+</body>
 </html>
