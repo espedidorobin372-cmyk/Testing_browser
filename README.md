@@ -98,3 +98,98 @@ window.onload = function() {
   </script>
     </body>
 </html>
+
+<!--============================================================-->
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mga Larawan — Aayon sa Screen</title>
+    <style>
+        /* Buong pahina */
+        body {
+            background-color: #f0f0f0;
+            padding: 20px;
+            font-family: sans-serif;
+        }
+
+        /* Lalagyan ng lahat ng larawan — dito nangyayari ang pag-aayos */
+        .gallery {
+            display: flex;          /* Magkakatabi mula kaliwa pakanan */
+            flex-wrap: wrap;        /* ✅ Kapag puno na, bumababa sa susunod na linya */
+            gap: 20px;              /* Espasyo sa pagitan ng bawat larawan */
+            justify-content: flex-start; /* Magsisimula sa kaliwa */
+        }
+
+        /* Bawat kahon ng larawan */
+        .gallery-item {
+            flex: 0 0 auto;         /* Hindi magpipilit magpalit ng lapad */
+        }
+
+        /* Ang mismong larawan */
+        .gallery-item img {
+            width: 200px;           /* Lapad ng larawan sa computer */
+            height: 150px;          /* Taas ng larawan */
+            object-fit: cover;      /* Hindi magiging hiwa-hiwa ang itsura */
+            border-radius: 8px;     /* Medyo bilog ang gilid — maganda tignan */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* May anino */
+            border: 4px solid rgb(255, 0, 0); /* ITO YONG BOX SA PALIBOT NG LARAWAN */
+        }
+
+        /* ✅ Para sa CELLPHONE — kapag mas maliit sa 768px */
+        @media (max-width: 768px) {
+            .gallery-item img {
+                width: 150px;       /* Mas maliit na larawan sa cellphone */
+                height: 110px;
+            }
+            .gallery {
+                gap: 15px;          /* Mas maliit na espasyo */
+            }
+        }
+
+        /* ✅ Napakaliit na cellphone — mas maliit sa 480px */
+        @media (max-width: 480px) {
+            .gallery-item img {
+                width: 130px;
+                height: 100px;
+            }
+            .gallery {
+                gap: 10px;
+            }
+        }
+        H1 {font-weight: bold; color: blue}
+        .gallery {
+            border: 4px solid rgb(255, 153, 0);
+            padding: 15px;
+        }
+        .gallery-item img {
+            width: 180px; /*180px*/
+            height: auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <h1>Ang Aking Koleksyon ng Larawan 📷</h1>
+    <div class="gallery">
+        <div class="gallery-item"><img src="larawan1.jpg" alt="Larawan 1"></div>
+        <div class="gallery-item"><img src="larawan2.jpg" alt="Larawan 2"></div>
+        <div class="gallery-item"><img src="larawan3.jpg" alt="Larawan 3"></div>
+        <div class="gallery-item"><img src="larawan4.jpg" alt="Larawan 4"></div>
+        <div class="gallery-item"><img src="larawan5.jpg" alt="Larawan 5"></div>
+        <div class="gallery-item"><img src="larawan6.jpg" alt="Larawan 6"></div>
+        <div class="gallery-item"><img src="larawan7.jpg" alt="Larawan 7"></div>
+        <div class="gallery-item"><img src="larawan8.jpg" alt="Larawan 8"></div>
+        <div class="gallery-item"><img src="larawan9.jpg" alt="Larawan 9"></div>
+        <div class="gallery-item"><img src="larawan10.jpg" alt="Larawan 10"></div>
+        <div class="gallery-item"><img src="larawan11.jpg" alt="Larawan 11"></div>
+        <div class="gallery-item"><img src="larawan12.jpg" alt="Larawan 12"></div>
+        <div class="gallery-item"><img src="larawan13.jpg" alt="Larawan 13"></div>
+        <div class="gallery-item"><img src="larawan14.jpg" alt="Larawan 14"></div>
+        <div class="gallery-item"><img src="larawan15.jpg" alt="Larawan 15"></div>
+        <div class="gallery-item"><img src="larawan16.jpg" alt="Larawan 16"></div>
+    </div>
+</body>
+</html>
