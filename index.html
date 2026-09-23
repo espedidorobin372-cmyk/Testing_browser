@@ -1,52 +1,99 @@
 <!DOCTYPE html>
-<html lang="tl-PH">
+<html lang="tl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>try hover to preview tag</title>
+    <title>Mga Larawan — Aayon sa Screen</title>
     <style>
-        /*pre:hover {
-            color: blue;
-        }*/
-        body {color: beige;}
-        li:hover {
-            color: rgb(20, 20, 20);
-            transform: translateY(-5px);
+       <style>
+    body {
+        background-color: #f0f0f0;
+        padding: 20px;
+        font-family: sans-serif;
+    }
+
+    h1 {
+        font-weight: bold;
+        color: blue;
+    }
+
+    .gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: flex-start;
+        border: 4px solid rgb(255, 153, 0);
+        padding: 15px;
+    }
+
+    /* ✅ PANTAY NA LAKI — Ito ang susi! */
+    .gallery-item {
+        /* Iisang sukat para sa LAHAT ng kahon */
+        width: 200px;
+        height: 150px;
+        
+        border: 4px solid rgb(255, 0, 0);
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        
+        /* ✅ Gitnang pagkakalagay ng larawan sa loob */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .gallery-item img {
+        /* Sakto sa loob — hindi lalampas sa border */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* 📱 Cellphone — pantay pa rin! */
+    @media (max-width: 768px) {
+        .gallery-item {
+            width: 150px;
+            height: 110px;
         }
-        li {
-            font-size: 15px;
-            font-weight: bold;
-            color: blueviolet;
+        .gallery {
+            gap: 15px;
         }
-        h1 {font-size: 20px; color: blue; font-weight: bold;}
+    }
+
+    /* 📱 Napakaliit na screen */
+    @media (max-width: 480px) {
+        .gallery-item {
+            width: 130px;
+            height: 100px;
+        }
+        .gallery {
+            gap: 10px;
+        }
+    }
+</style>
     </style>
 </head>
 <body>
-    <div>
-    <pre>
-        <ul>
-<h1>    PABALAT</h1>
-<li>1st Class Harina    650 g</li>
-<li>3rd Class Harina    100 g</li>
-<li>Asukal              150 g</li>
-<li>Asin                8 g</li>
-<li>Lebadura(yeast)     1/2 tbsp</li>
-<li>Baking Powder       1/2 tbsp</li>
-<li>Tubig               3/4 lata</li>
-<li>Lard                25 g</li>
-<li>Margarine           12 g</li>
-
-<h1>    PALAMAN</h1>
-<li>Asukal              400 g</li>
-<li>Pangkulay           Lemon Yellow</li>
-<li>Tubig               4 1/2 lata</li>
-<li>Pineapple Powder    1/2 pakete</li>
-<li>Margarine           50 g</li>
-<h1>    PANG-APAL</h1>
-<li>Cornstarch          350 g</li>
-<li>Tubig               1 1/2 lata</li>
-         </ul>
-    </pre>
+    <h1>Ang Aking Koleksyon ng Larawan 📷</h1>
+    <div class="gallery">
+        <div class="gallery-item"><img src="larawan1.jpg" alt="Larawan 1"></div>
+        <div class="gallery-item"><img src="larawan2.jpg" alt="Larawan 2"></div>
+        <div class="gallery-item"><img src="larawan3.jpg" alt="Larawan 3"></div>
+        <div class="gallery-item"><img src="larawan4.jpg" alt="Larawan 4"></div>
+        <div class="gallery-item"><img src="larawan5.jpg" alt="Larawan 5"></div>
+        <div class="gallery-item"><img src="larawan6.jpg" alt="Larawan 6"></div>
+        <div class="gallery-item"><img src="larawan7.jpg" alt="Larawan 7"></div>
+        <div class="gallery-item"><img src="larawan8.jpg" alt="Larawan 8"></div>
+        <div class="gallery-item"><img src="larawan9.jpg" alt="Larawan 9"></div>
+        <div class="gallery-item"><img src="larawan10.jpg" alt="Larawan 10"></div>
+        <div class="gallery-item"><img src="larawan11.jpg" alt="Larawan 11"></div>
+        <div class="gallery-item"><img src="larawan12.jpg" alt="Larawan 12"></div>
+        <div class="gallery-item"><img src="larawan13.jpg" alt="Larawan 13"></div>
+        <div class="gallery-item"><img src="larawan14.jpg" alt="Larawan 14"></div>
+        <div class="gallery-item"><img src="larawan15.jpg" alt="Larawan 15"></div>
+        <div class="gallery-item"><img src="larawan16.jpg" alt="Larawan 16"></div>
     </div>
 </body>
 </html>
