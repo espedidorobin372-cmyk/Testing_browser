@@ -622,4 +622,61 @@
 
       if (remainder > 0) {
         let percent = remainder * 100;
-        let fracLabel = remainder === 0.5 ? 'KALAHATI (1/2)' : (remainder === 0.25 ? '1/4' : (remainder === 0.75 ? '3
+        let fracLabel = remainder === 0.5 ? 'KALAHATI (1/2)' : (remainder === 0.25 ? '1/4' : (remainder === 0.75 ? '3/4' : remainder));
+        grid.appendChild(createUnitBox(percent, unit, fracLabel));
+      }
+
+      let textAmount = amount;
+      if (amount === 0.5) textAmount = "Kalahating (1/2)";
+      if (amount === 0.75) textAmount = "3/4 (Tatlong Kapat)";
+      if (amount === 4.5) textAmount = "4 at Kalahating (4 1/2)";
+
+      document.getElementById('display-text').innerText = textAmount + ' ' + unit;
+
+      let note = document.getElementById('conversionNote');
+      note.style.display = 'block';
+
+      if (unit === 'tbsp') {
+        note.innerText = `💡 Gamitin ang Kutsara (tbsp). Punuin nang pantay.`;
+      } else if (unit === 'can') {
+        note.innerText = `💡 Sundin ang kulay dilaw sa lata na nasa itaas.`;
+      } else {
+        note.innerText = `💡 Gamitin ang ${textAmount} ng pakete.`;
+      }
+    }
+
+    function createUnitBox(fillPercent, unit, label) {
+      let box = document.createElement('div');
+      box.className = 'unit-box';
+      
+      let fill = document.createElement('div');
+      fill.className = 'unit-fill';
+      
+      let text = document.createElement('div');
+      text.className = 'unit-label';
+      text.innerText = label;
+
+      box.appendChild(fill);
+      box.appendChild(text);
+
+      setTimeout(() => {
+        fill.style.height = fillPercent + '%';
+      }, 100);
+
+      return box;
+    }
+
+    function closeScale() {
+      document.getElementById('scaleModal').style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      let modal = document.getElementById('scaleModal');
+      if (event.target == modal) {
+        closeScale();
+      }
+    }
+  </script>
+
+</body>
+</html>
