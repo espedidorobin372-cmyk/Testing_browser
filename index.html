@@ -1,93 +1,472 @@
 <!DOCTYPE html>
 <html lang="tl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mga Larawan — Aayon sa Screen</title>
-    <style>
-        /* Buong pahina */
-        body {
-            background-color: #f0f0f0;
-            padding: 20px;
-            font-family: sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pineapple Pie Recipe with Visual Measurement</title>
+  <style>
+    body {
+      background-color: #82d4d4; /* Cyan background */
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      padding: 20px;
+      margin: 0;
+    }
 
-        /* Lalagyan ng lahat ng larawan — dito nangyayari ang pag-aayos */
-        .gallery {
-            display: flex;          /* Magkakatabi mula kaliwa pakanan */
-            flex-wrap: wrap;        /* ✅ Kapag puno na, bumababa sa susunod na linya */
-            gap: 20px;              /* Espasyo sa pagitan ng bawat larawan */
-            justify-content: flex-start; /* Magsisimula sa kaliwa */
-        }
+    h1 {
+      color: blue;
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
 
-        /* Bawat kahon ng larawan */
-        .gallery-item {
-            flex: 0 0 auto;         /* Hindi magpipilit magpalit ng lapad */
-        }
+    h2 {
+      color: rgb(4, 0, 255);
+      font-size: 22px;
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
 
-        /* Ang mismong larawan */
-        .gallery-item img {
-            width: 200px;           /* Lapad ng larawan sa computer */
-            height: 150px;          /* Taas ng larawan */
-            object-fit: cover;      /* Hindi magiging hiwa-hiwa ang itsura */
-            border-radius: 8px;     /* Medyo bilog ang gilid — maganda tignan */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* May anino */
-            border: 4px solid rgb(255, 0, 0); /* ITO YONG BOX SA PALIBOT NG LARAWAN */
-        }
+    .ingredient-list {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
 
-        /* ✅ Para sa CELLPHONE — kapag mas maliit sa 768px */
-        @media (max-width: 768px) {
-            .gallery-item img {
-                width: 150px;       /* Mas maliit na larawan sa cellphone */
-                height: 110px;
-            }
-            .gallery {
-                gap: 15px;          /* Mas maliit na espasyo */
-            }
-        }
+    .ingredient-item {
+      display: flex;
+      justify-content: space-between;
+      max-width: 350px;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
 
-        /* ✅ Napakaliit na cellphone — mas maliit sa 480px */
-        @media (max-width: 480px) {
-            .gallery-item img {
-                width: 130px;
-                height: 100px;
-            }
-            .gallery {
-                gap: 10px;
-            }
-        }
-        H1 {font-weight: bold; color: blue}
-        .gallery {
-            border: 4px solid rgb(255, 153, 0);
-            padding: 15px;
-        }
-        .gallery-item img {
-            width: 180px; /*180px*/
-            height: auto;
-            border-radius: 6px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-    </style>
+  /*  .label-red { color: red; }  MULA SA BAHAGING NABAGO NA, MULA RED PINALITAN NG GREEN  <li class="ingredient-item">
+                                   <span class="label-red">1st class</span>
+                                   <button class="weight-btn weight-red" onclick="showGramScale(650, '1st class')">650 g</button>
+                                   </li> */
+    .label-green { color: rgb(252, 4, 87); }
+
+    /* Pindutan ang Lahat ng Sukat */
+    .weight-btn {
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: underline;
+    }
+
+  /*  .weight-red { color: red; } MULA SA BAHAGING NABAGO NA, MULA RED PINALITAN NG GREEN  <li class="ingredient-item">
+                                   <span class="label-red">1st class</span>
+                                   <button class="weight-btn weight-red" onclick="showGramScale(650, '1st class')">650 g</button>
+                                   </li> */
+    .weight-green { color: rgb(253, 5, 67); }
+
+    /* Modal / Popup */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background-color: #ff7700; /* Orange casing */
+      padding: 20px;
+      border-radius: 20px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+      border: 4px solid #cc5500;
+      min-width: 300px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    /* Container para sa ibang sukat (Volume Gauge) */
+    .volume-container {
+      display: none;
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 20px;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    /* Visual Liquid / Level Bar para sa Can at Cup */
+    .cup-graphic {
+      width: 100px;
+      height: 160px;
+      border: 4px solid #333;
+      border-top: none;
+      border-radius: 0 0 15px 15px;
+      margin: 20px auto;
+      position: relative;
+      background: #f0f0f0;
+      overflow: hidden;
+    }
+
+    .cup-fill {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: #ffd700; /* Gold/Yellow liquid color */
+      transition: height 1s ease-out;
+    }
+
+    /* Visual Spoon Icon */
+    .spoon-graphic {
+      width: 80px;
+      height: 80px;
+      border: 4px solid #333;
+      border-radius: 50%;
+      margin: 20px auto;
+      position: relative;
+      background: #f0f0f0;
+      overflow: hidden;
+    }
+
+    .spoon-fill {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background-color: #ff9900;
+      transition: height 1s ease-out;
+    }
+
+    canvas {
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    #display-text {
+      font-size: 22px;
+      color: #fff;
+      margin-top: 15px;
+      text-shadow: 1px 1px 2px #000;
+    }
+/*DAGDAG CODE*/
+/* Styling para sa mismong linya ng sangkap */
+.ingredient-item {
+  display: flex;
+  justify-content: space-between;
+  max-width: 350px;
+  margin-bottom: 12px;
+  font-size: 18px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  
+  /* Smooth animation para sa paggalaw at pagbago ng kulay */
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+/* Effect kapag itinapat ang Mouse Pointer o In-is-screen/TINAP sa Android Phone */
+.ingredient-item:hover,
+.ingredient-item:active {
+  background-color: rgb(206, 224, 40); /* Bahagyang nagiging puti ang background */
+  transform: translateY(-4px) scale(1.02);      /* Aangat ng 4px at lalaki nang bahagya (2%) */
+  box-shadow: 0 4px 8px rgba(250, 2, 2, 0.952);    /* Magkakaroon ng kaunting anino sa ilalim */
+}
+
+/* Styling at Hover Effect sa Pindutan ng Timbang */
+.weight-btn {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+/* Kapag tinapatan o pinindot ang mismong numero/timbang */
+.weight-btn:hover,
+.weight-btn:active {
+  color: #d91e18;      /* Magiging maliwanag na pula ang kulay */
+  transform: scale(1.1); /* Lalaki pa nang kaunti ang numero */
+}
+  </style>
 </head>
 <body>
-    <h1>Ang Aking Koleksyon ng Larawan 📷</h1>
-    <div class="gallery">
-        <div class="gallery-item"><img src="larawan1.jpg" alt="Larawan 1"></div>
-        <div class="gallery-item"><img src="larawan2.jpg" alt="Larawan 2"></div>
-        <div class="gallery-item"><img src="larawan3.jpg" alt="Larawan 3"></div>
-        <div class="gallery-item"><img src="larawan4.jpg" alt="Larawan 4"></div>
-        <div class="gallery-item"><img src="larawan5.jpg" alt="Larawan 5"></div>
-        <div class="gallery-item"><img src="larawan6.jpg" alt="Larawan 6"></div>
-        <div class="gallery-item"><img src="larawan7.jpg" alt="Larawan 7"></div>
-        <div class="gallery-item"><img src="larawan8.jpg" alt="Larawan 8"></div>
-        <div class="gallery-item"><img src="larawan9.jpg" alt="Larawan 9"></div>
-        <div class="gallery-item"><img src="larawan10.jpg" alt="Larawan 10"></div>
-        <div class="gallery-item"><img src="larawan11.jpg" alt="Larawan 11"></div>
-        <div class="gallery-item"><img src="larawan12.jpg" alt="Larawan 12"></div>
-        <div class="gallery-item"><img src="larawan13.jpg" alt="Larawan 13"></div>
-        <div class="gallery-item"><img src="larawan14.jpg" alt="Larawan 14"></div>
-        <div class="gallery-item"><img src="larawan15.jpg" alt="Larawan 15"></div>
-        <div class="gallery-item"><img src="larawan16.jpg" alt="Larawan 16"></div>
+
+  <h1>PINEAPPLE PIE 1</h1>
+
+  <h2>PABALAT</h2>
+  <ul class="ingredient-list">
+    <li class="ingredient-item">
+      <span class="label-green">1st class</span>
+      <button class="weight-btn weight-green" onclick="showGramScale(650, '1st class')">650 g</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">3rd class</span>
+      <button class="weight-btn weight-green" onclick="showGramScale(100, '3rd class')">100 g</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Asukal</span>
+      <button class="weight-btn weight-green" onclick="showGramScale(150, 'Asukal')">150 g</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Asin</span>
+      <button class="weight-btn weight-green" onclick="showGramScale(8, 'Asin')">8 g</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Yeast</span>
+      <button class="weight-btn weight-green" onclick="showVolumeScale(0.5, 'tbsp', 'Yeast')">1/2 tbsp</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Baking</span>
+      <button class="weight-btn weight-green" onclick="showVolumeScale(0.5, 'tbsp', 'Baking Powder')">1/2 tbsp</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Tubig</span>
+      <button class="weight-btn weight-green" onclick="showVolumeScale(0.75, 'can', 'Tubig (Pabalat)')">3/4 can</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Lard</span>
+      <button class="weight-btn weight-green" onclick="showGramScale(25, 'Lard')">25 g</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Margarine</span>
+      <button class="weight-btn weight-green" onclick="showGramScale(12, 'Margarine')">12 g</button>
+    </li>
+  </ul>
+
+  <h2>PALAMAN</h2>
+  <ul class="ingredient-list">
+    <li class="ingredient-item">
+      <span class="label-green">Asukal</span>
+      <button class="weight-btn weight-green" onclick="showGramScale(400, 'Asukal (Palaman)')">400 g</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Tubig</span>
+      <button class="weight-btn weight-green" onclick="showVolumeScale(4.5, 'can', 'Tubig (Palaman)')">4 1/2 can</button>
+    </li>
+    <li class="ingredient-item">
+      <span class="label-green">Pineapple tang</span>
+      <button class="weight-btn weight-green" onclick="showVolumeScale(0.5, 'pack', 'Pineapple Tang')">1/2 pack</button>
+    </li>
+  </ul>
+
+  <!-- Modal / Popup -->
+  <div id="scaleModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeScale()">&times;</span>
+      <h3 id="ingredient-title" style="color: #fff; margin-top: 5px;">Sukat</h3>
+      
+      <!-- Canvas para sa Grams (Timbangan) -->
+      <canvas id="scaleCanvas" width="320" height="320" style="display:none;"></canvas>
+
+      <!-- Graphic para sa Can, Cup, o Spoon -->
+      <div id="volumeContainer" class="volume-container">
+        <!-- Cup / Can Graphic -->
+        <div id="cupGraphic" class="cup-graphic" style="display:none;">
+          <div id="cupFill" class="cup-fill"></div>
+        </div>
+
+        <!-- Spoon Graphic -->
+        <div id="spoonGraphic" class="spoon-graphic" style="display:none;">
+          <div id="spoonFill" class="spoon-fill"></div>
+        </div>
+      </div>
+
+      <div id="display-text">0</div>
     </div>
+  </div>
+
+  <script>
+    let currentWeight = 0;
+    let targetWeight = 0;
+    let animationFrame;
+
+    // --- TIMBANGAN (Grams) ---
+    function drawScale(grams) {
+      const canvas = document.getElementById('scaleCanvas');
+      const ctx = canvas.getContext('2d');
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      const radius = 140;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+      ctx.fillStyle = '#fbfbfb';
+      ctx.fill();
+      ctx.lineWidth = 3;
+      ctx.strokeStyle = '#ccc';
+      ctx.stroke();
+
+      for (let i = 0; i < 200; i++) {
+        let angle = (i / 200) * (2 * Math.PI) - (Math.PI / 2);
+        let val = i * 5;
+        let is50 = (val % 50 === 0);
+        let is250 = (val % 250 === 0);
+
+        let tickLength = is250 ? 18 : (is50 ? 12 : 6);
+
+        let x1 = centerX + Math.cos(angle) * (radius - 5);
+        let y1 = centerY + Math.sin(angle) * (radius - 5);
+        let x2 = centerX + Math.cos(angle) * (radius - 5 - tickLength);
+        let y2 = centerY + Math.sin(angle) * (radius - 5 - tickLength);
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineWidth = is250 ? 2 : (is50 ? 1.5 : 1);
+        ctx.strokeStyle = '#333';
+        ctx.stroke();
+
+        if (is50 && val < 1000) {
+          let textX = centerX + Math.cos(angle) * (radius - 32);
+          let textY = centerY + Math.sin(angle) * (radius - 32);
+
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = '#222';
+
+          ctx.font = (is250 && val !== 0) ? 'bold 22px Arial' : 'bold 12px Arial';
+          let labelText = val === 0 ? '0g' : val.toString();
+          ctx.fillText(labelText, textX, textY);
+        }
+      }
+
+      ctx.font = 'bold 10px Arial';
+      ctx.fillStyle = '#555';
+      ctx.textAlign = 'center';
+      ctx.fillText('CAP.1kg   GRAD.5g', centerX, centerY + 50);
+
+      // Needle
+      let needleAngle = (grams / 1000) * (2 * Math.PI) - (Math.PI / 2);
+      ctx.save();
+      ctx.translate(centerX, centerY);
+      ctx.rotate(needleAngle + Math.PI / 2);
+
+      ctx.beginPath();
+      ctx.moveTo(0, 20);
+      ctx.lineTo(-4, 0);
+      ctx.lineTo(-1, -(radius - 20));
+      ctx.lineTo(1, -(radius - 20));
+      ctx.lineTo(4, 0);
+      ctx.closePath();
+      ctx.fillStyle = '#d91e18';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(0, 0, 12, 0, 2 * Math.PI);
+      ctx.fillStyle = '#b31510';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(0, 0, 5, 0, 2 * Math.PI);
+      ctx.fillStyle = '#777';
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function animateNeedle() {
+      let diff = targetWeight - currentWeight;
+      if (Math.abs(diff) > 0.5) {
+        currentWeight += diff * 0.1;
+        drawScale(currentWeight);
+        animationFrame = requestAnimationFrame(animateNeedle);
+      } else {
+        currentWeight = targetWeight;
+        drawScale(currentWeight);
+      }
+    }
+
+    function showGramScale(grams, ingredientName) {
+      let gradGrams = Math.round(grams / 5) * 5;
+      
+      document.getElementById('scaleModal').style.display = 'flex';
+      document.getElementById('scaleCanvas').style.display = 'block';
+      document.getElementById('volumeContainer').style.display = 'none';
+
+      document.getElementById('ingredient-title').innerText = ingredientName;
+      document.getElementById('display-text').innerText = grams + ' g (Grad: ' + gradGrams + 'g)';
+
+      currentWeight = 0;
+      targetWeight = gradGrams;
+      cancelAnimationFrame(animationFrame);
+      animateNeedle();
+    }
+
+    // --- VOLUME / OTHER MEASUREMENTS (can, tbsp, tsp, cup, pack) ---
+    function showVolumeScale(amount, unit, ingredientName) {
+      document.getElementById('scaleModal').style.display = 'flex';
+      document.getElementById('scaleCanvas').style.display = 'none';
+      document.getElementById('volumeContainer').style.display = 'block';
+
+      document.getElementById('ingredient-title').innerText = ingredientName;
+
+      let cupGraphic = document.getElementById('cupGraphic');
+      let spoonGraphic = document.getElementById('spoonGraphic');
+
+      // Piliin kung anong graphic ang ipakikita
+      if (unit === 'tbsp' || unit === 'tsp') {
+        cupGraphic.style.display = 'none';
+        spoonGraphic.style.display = 'block';
+        
+        let percent = Math.min(amount * 100, 100);
+        setTimeout(() => {
+          document.getElementById('spoonFill').style.height = percent + '%';
+        }, 100);
+      } else {
+        // Para sa Can, Cup, o Pack
+        spoonGraphic.style.display = 'none';
+        cupGraphic.style.display = 'block';
+        
+        // I-set ang taas ng laman (hal. 3/4 can = 75%)
+        let fillFraction = amount > 1 ? (amount % 1 === 0 ? 1 : amount % 1) : amount;
+        let percent = fillFraction * 100;
+        
+        setTimeout(() => {
+          document.getElementById('cupFill').style.height = percent + '%';
+        }, 100);
+      }
+
+      // I-format ang teksto na ipapakita
+      let fractionText = amount;
+      if (amount === 0.5) fractionText = "1/2";
+      if (amount === 0.75) fractionText = "3/4";
+      if (amount === 4.5) fractionText = "4 1/2";
+
+      document.getElementById('display-text').innerText = fractionText + ' ' + unit;
+    }
+
+    function closeScale() {
+      document.getElementById('scaleModal').style.display = 'none';
+      document.getElementById('cupFill').style.height = '0%';
+      document.getElementById('spoonFill').style.height = '0%';
+    }
+
+    window.onclick = function(event) {
+      let modal = document.getElementById('scaleModal');
+      if (event.target == modal) {
+        closeScale();
+      }
+    }
+  </script>
+
 </body>
 </html>
