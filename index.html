@@ -338,10 +338,10 @@
       ctx.fillText('CAP. 1kg   GRAD. 5g', centerX, centerY + 45);
 
       // Red Needle with Bulb Center
-      let needleAngle = (grams / 1000) * (2 * Math.PI) - (Math.PI / 2);
+      let needleAngle = (grams / 1000) * (2 * Math.PI);
       ctx.save();
       ctx.translate(centerX, centerY);
-      ctx.rotate(needleAngle + Math.PI / 2);
+      ctx.rotate(needleAngle);
 
       ctx.beginPath();
       ctx.moveTo(0, 15);
@@ -355,7 +355,7 @@
 
       // Needle Bulb Center
       ctx.beginPath();
-      ctx.arc(0, 20, 14, 0, 2 * Math.PI);
+      ctx.arc(0, 0, 14, 0, 2 * Math.PI);
       ctx.fillStyle = '#e60000';
       ctx.fill();
 
@@ -416,9 +416,9 @@
       ctx.stroke();
 
       // Green Target Area
-      let targetAngle = (targetKilos / 10) * (2 * Math.PI) - (Math.PI / 2);
+      let targetArcAngle = (targetKilos / 10) * (2 * Math.PI) - (Math.PI / 2);
       ctx.beginPath();
-      ctx.arc(centerX, centerY, radius - 15, targetAngle - 0.15, targetAngle + 0.15);
+      ctx.arc(centerX, centerY, radius - 15, targetArcAngle - 0.15, targetArcAngle + 0.15);
       ctx.lineWidth = 14;
       ctx.strokeStyle = 'rgba(40, 167, 69, 0.45)';
       ctx.stroke();
@@ -453,12 +453,14 @@
 
       ctx.font = 'bold 8px Arial';
       ctx.fillStyle = '#555';
+      ctx.textAlign = 'center';
       ctx.fillText('10kg SCALE', centerX, centerY + 30);
 
-      // Needle
+      // Needle Rotation (Tumatapat sa 10/0 kapag targetKilos = 10)
+      let needleRotation = (targetKilos / 10) * (2 * Math.PI);
       ctx.save();
       ctx.translate(centerX, centerY);
-      ctx.rotate(targetAngle);
+      ctx.rotate(needleRotation);
 
       ctx.beginPath();
       ctx.moveTo(0, 10);
@@ -521,13 +523,7 @@
       setTimeout(() => {
         draw10KgScale('kiloCanvas10', 10);
         if (remainingGrams > 0) {
-          targetWeight = remainingGrams;
-          let canvas = document.getElementById('gramCanvasRem');
-          if (canvas) {
-            let tempCanvas = document.getElementById('scaleCanvas');
-            document.getElementById('scaleCanvas').style.display = 'none';
-            drawCustomGramScale('gramCanvasRem', remainingGrams);
-          }
+          drawCustomGramScale('gramCanvasRem', remainingGrams);
         }
       }, 100);
 
@@ -536,13 +532,14 @@
       note.innerText = `💡 PAANO TIMBANGIN:\n1️⃣ Patimbangin ang 10 Kilo sa Malaking Asul na Timbangan.\n2️⃣ Isunod ang natitirang 500g (Kalahating kilo) sa Orange Timbangan.`;
     }
 
+    // Naayos na Grammer Scale Dial (Kumpletong 1kg Capacity / Grad. 5g)
     function drawCustomGramScale(canvasId, grams) {
       const canvas = document.getElementById(canvasId);
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const radius = canvas.width / 2 - 10;
+      const radius = canvas.width / 2 - 8;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -555,30 +552,55 @@
       ctx.stroke();
 
       // Green Target Highlight
-      let targetAngle = (grams / 1000) * (2 * Math.PI) - (Math.PI / 2);
+      let targetArcAngle = (grams / 1000) * (2 * Math.PI) - (Math.PI / 2);
       ctx.beginPath();
-      ctx.arc(centerX, centerY, radius - 12, targetAngle - 0.15, targetAngle + 0.15);
-      ctx.lineWidth = 12;
+      ctx.arc(centerX, centerY, radius - 10, targetArcAngle - 0.15, targetArcAngle + 0.15);
+      ctx.lineWidth = 10;
       ctx.strokeStyle = 'rgba(40, 167, 69, 0.45)';
       ctx.stroke();
 
-      // Numbers 250, 500, 750
-      [250, 500, 750].forEach(val => {
-        let angle = (val / 1000) * (2 * Math.PI) - (Math.PI / 2);
-        let textX = centerX + Math.cos(angle) * (radius - 20);
-        let textY = centerY + Math.sin(angle) * (radius - 20);
+      // Ticks at Numbers para sa 1kg / Grad 5g
+      for (let i = 0; i < 100; i += 2) {
+        let angle = (i / 100) * (2 * Math.PI) - (Math.PI / 2);
+        let val = i * 10; 
+        let isMajor = (val % 250 === 0);
+        let isMedium = (val % 50 === 0 && !isMajor);
 
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#000';
-        ctx.font = 'bold 14px Arial';
-        ctx.fillText(val.toString(), textX, textY);
-      });
+        let tickLen = isMajor ? 8 : (isMedium ? 5 : 3);
 
-      // Needle
+        let x1 = centerX + Math.cos(angle) * (radius - 2);
+        let y1 = centerY + Math.sin(angle) * (radius - 2);
+        let x2 = centerX + Math.cos(angle) * (radius - 2 - tickLen);
+        let y2 = centerY + Math.sin(angle) * (radius - 2 - tickLen);
+
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.lineWidth = isMajor ? 2 : 1;
+        ctx.strokeStyle = '#333';
+        ctx.stroke();
+
+        if (isMajor) {
+          let textX = centerX + Math.cos(angle) * (radius - 18);
+          let textY = centerY + Math.sin(angle) * (radius - 18);
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = '#000';
+          ctx.font = 'bold 11px Arial';
+          ctx.fillText(val === 0 ? '0' : val.toString(), textX, textY);
+        }
+      }
+
+      ctx.font = 'bold 7px Arial';
+      ctx.fillStyle = '#666';
+      ctx.textAlign = 'center';
+      ctx.fillText('CAP. 1kg   GRAD. 5g', centerX, centerY + 25);
+
+      // Needle Rotation (Tumatapat sa 500g pababa kapag grams = 500)
+      let needleRotation = (grams / 1000) * (2 * Math.PI);
       ctx.save();
       ctx.translate(centerX, centerY);
-      ctx.rotate(targetAngle);
+      ctx.rotate(needleRotation);
 
       ctx.beginPath();
       ctx.moveTo(0, 8);
