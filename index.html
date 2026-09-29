@@ -1,704 +1,700 @@
 <!DOCTYPE html>
 <html lang="tl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pineapple Pie Recipe with Real Dial Scales</title>
-  <style>
-    body {
-      background-color: #00ffff; /* Cyan background */
-      font-family: 'Courier New', Courier, monospace;
-      font-weight: bold;
-      padding: 20px;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timpla ng Tinapay - Aking Resipe</title>
+    <link rel="icon" href="baker22.ico" type="image/x-icon">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    h1 {
-      color: blue;
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
+        /* ✅ KULAY SA LABAS — HINDI MAGBABAGO */
+        body {
+            font-family: 'Consolas', 'Courier New', monospace;
+            background: #1a1a1a; /* Itim na kulay sa labas */
+            color: #f9dc5c;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
 
-    h2 {
-      color: blue;
-      font-size: 22px;
-      margin-top: 20px;
-      margin-bottom: 15px;
-    }
+        /* ✅ PANGUNAHING LAMAN — NAKAGITNA */
+        .pangunahing-kahon {
+            max-width: 700px;
+            margin: 30px auto;
+            border: 2px solid #f9dc5c;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(249, 220, 92, 0.3);
+            padding: 30px 20px;
+        }
 
-    .ingredient-list {
-      list-style-type: disc;
-      padding-left: 20px;
-    }
+        h1 { text-align: center; margin-bottom: 25px; color: #5e09be; font-size: 22px; }
+        .menu-item {
+            display: block;
+            color: #f9dc5c;
+            text-decoration: none;
+            padding: 6px 10px;
+            margin: 4px 0;
+            border-radius: 4px;
+            transition: 0.2s;
+        }
+        .menu-item:hover { background: #5951c4; color: #80d8f7; }
 
-    /* Interactive Item Styling */
-    .ingredient-item {
-      display: flex;
-      justify-content: space-between;
-      max-width: 380px;
-      margin-bottom: 12px;
-      font-size: 18px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-      cursor: pointer;
-    }
+        /* ✅ DITO NAKALAGAY ANG DAHAN-DAHANG PAGBABAGO NG KULAY — SA LOOB NG RESIPE */
+        @keyframes SmoothGradient {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-    .ingredient-item:hover,
-    .ingredient-item:active {
-      background-color: rgba(255, 255, 255, 0.4);
-      transform: translateY(-4px) scale(1.02);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    }
+        .resipe-box {
+            /* ✅ ANIMASYON SA LOOB LANG */
+            background: linear-gradient(55deg, 
+                #FCE38A, #f5ad4d, #fd81b5, #f74689, 
+                #ad5af3, #8a13ef, #8803fc, #491cc5, 
+                #1101fc, #018bfc, #01d6fc, #01fc72, 
+                #65fc01, #b9eb07, #fc5d01, #f70606
+            );
+            background-size: 600% 600%;
+            animation: SmoothGradient 30s ease infinite;
+            
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+            border-left: 3px solid #80d8f7;
+            color: white; /* Para malinaw ang sulat sa makulay na background */
+        }
 
-    .label-red { color: red; }
-    .label-green { color: green; }
-
-    /* Button Styling */
-    .weight-btn {
-      background: none;
-      border: none;
-      font-family: inherit;
-      font-size: inherit;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 0;
-      text-decoration: underline;
-      transition: color 0.2s ease, transform 0.2s ease;
-    }
-
-    .weight-btn:hover,
-    .weight-btn:active {
-      color: #d91e18;
-      transform: scale(1.1);
-    }
-
-    .weight-red { color: red; }
-    .weight-green { color: green; }
-
-    /* Modal / Popup Styling */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
-      background-color: #ff7700; /* Orange Casing for Gram Scale */
-      padding: 20px;
-      border-radius: 20px;
-      text-align: center;
-      position: relative;
-      width: 380px;
-      max-width: 90%;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.4);
-      border: 4px solid #cc5500;
-      box-sizing: border-box;
-      transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px; right: 15px;
-      font-size: 28px;
-      cursor: pointer;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    canvas {
-      background-color: #ffffff;
-      border-radius: 50%;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.3);
-    }
-
-    /* Grid para sa Multi-Container Icon at Dual Scales */
-    .icons-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 15px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 15px;
-      margin-top: 10px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-      max-height: 280px;
-      overflow-y: auto;
-    }
-
-    .unit-box {
-      width: 50px;
-      height: 70px;
-      border: 3px solid #333;
-      border-radius: 6px;
-      position: relative;
-      background: #eee;
-      overflow: hidden;
-    }
-
-    .unit-fill {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      background-color: #ffd700;
-      transition: height 0.8s ease;
-    }
-
-    .unit-label {
-      position: absolute;
-      width: 100%;
-      top: 25px;
-      font-size: 11px;
-      color: #000;
-      z-index: 2;
-    }
-
-    #display-text {
-      font-size: 22px;
-      color: #fff;
-      margin-top: 15px;
-      text-shadow: 1px 1px 2px #000;
-    }
-
-    /* Tip at Conversion Card */
-    .conversion-note {
-      font-size: 13px;
-      color: #fff;
-      background: rgba(0,0,0,0.35);
-      padding: 10px;
-      border-radius: 8px;
-      margin-top: 10px;
-      line-height: 1.4;
-      white-space: pre-line;
-    }
-  </style>
+        .resipe-box h2 { color: #fff; margin-bottom: 15px; text-align: center; font-size: 17px; text-shadow: 1px 1px 3px rgba(0,0,0,0.4); }
+        .bahagi { margin-bottom: 15px; }
+        .bahagi h3 { margin-bottom: 8px; color: #ffeb3b; font-size: 16px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .sangkap { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 3px 0; 
+            font-size: 15px; 
+            background: rgba(0,0,0,0.2); /* Bahagyang madilim para malinaw ang sulat */
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin: 3px 0;
+        }
+        .sangkap:hover { color: blue; transform: translateY(-2px); transition: 0.2s; }
+        .balik {
+            display: inline-block;
+            margin-top: 20px;
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 4px;
+            margin: 5px;
+            background: rgba(0,0,0,0.3);
+        }
+        .balik:hover { color: #f9dc5c; border-color: #f9dc5c; background: rgba(0,0,0,0.5); }
+        .proseso { line-height: 1.6; color: #fff; white-space: pre-line; }
+        .lugar {
+            background: linear-gradient(90deg, #e63946, #ff6b6b);
+            color: white;
+            font-size: 48px;
+            font-weight: bold;
+            padding: 20px 0;
+            overflow: hidden;
+            position: relative;
+            height: 80px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .gumagalaw {
+            position: absolute;
+            white-space: nowrap;
+            top: 15px;
+        }
+        .larawan-resipe {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .litrato {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+            border-radius: 6px;
+            border: 2px solid rgba(255,255,255,0.3);
+            margin: 0 auto;
+            display: block;
+        }
+    </style>
 </head>
-<body>
-
-  <h1>PINEAPPLE PIE 1</h1>
-
-  <h2>PABALAT</h2>
-
-  <ul class="ingredient-list">
-    <li class="ingredient-item">
-      <span class="label-red">1st class</span>
-      <button class="weight-btn weight-red" onclick="showKiloScale(10.5, '1st class (Harina)')">10 1/2 Kg</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">3rd class</span>
-      <button class="weight-btn weight-green" onclick="showGramScale(100, '3rd class')">100 g</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Asukal</span>
-      <button class="weight-btn weight-green" onclick="showGramScale(150, 'Asukal')">150 g</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Asin</span>
-      <button class="weight-btn weight-green" onclick="showGramScale(8, 'Asin')">8 g</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Yeast</span>
-      <button class="weight-btn weight-green" onclick="showMultiVolume(0.5, 'tbsp', 'Yeast')">1/2 tbsp</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Baking</span>
-      <button class="weight-btn weight-green" onclick="showMultiVolume(0.5, 'tbsp', 'Baking Powder')">1/2 tbsp</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Tubig</span>
-      <button class="weight-btn weight-green" onclick="showMultiVolume(0.75, 'can', 'Tubig (Pabalat)')">3/4 can</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Lard</span>
-      <button class="weight-btn weight-green" onclick="showGramScale(25, 'Lard')">25 g</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Margarine</span>
-      <button class="weight-btn weight-green" onclick="showGramScale(12, 'Margarine')">12 g</button>
-    </li>
-  </ul>
-
-  <h2>PALAMAN</h2>
-  <ul class="ingredient-list">
-    <li class="ingredient-item">
-      <span class="label-green">Asukal</span>
-      <button class="weight-btn weight-green" onclick="showGramScale(400, 'Asukal (Palaman)')">400 g</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Tubig</span>
-      <button class="weight-btn weight-green" onclick="showMultiVolume(4.5, 'can', 'Tubig (Palaman)')">4 1/2 can</button>
-    </li>
-    <li class="ingredient-item">
-      <span class="label-green">Pineapple tang</span>
-      <button class="weight-btn weight-green" onclick="showMultiVolume(0.5, 'pack', 'Pineapple Tang')">1/2 pack</button>
-    </li>
-  </ul>
-
-  <!-- Modal / Popup -->
-  <div id="scaleModal" class="modal">
-    <div id="modalContent" class="modal-content">
-      <span class="close-btn" onclick="closeScale()">&times;</span>
-      <h3 id="ingredient-title" style="color: #fff; margin-top: 5px;">Sukat</h3>
-      
-      <!-- Canvas para sa Timbangan -->
-      <canvas id="scaleCanvas" width="280" height="280" style="display:none;"></canvas>
-
-      <!-- Multi-Container / Multi-Scale Grid -->
-      <div id="iconsGrid" class="icons-grid" style="display:none;"></div>
-
-      <div id="display-text">0</div>
-      <div id="conversionNote" class="conversion-note"></div>
+<body class="smooth-bg">
+    
+    <!-- TEKSTONG GUMAGALAW -->
+    <div class="lugar">
+        <div class="gumagalaw" id="teksto">✨ MALIGAYANG PAGDATING! ✨</div>
     </div>
-  </div>
 
-  <script>
-    let currentWeight = 0;
-    let targetWeight = 0;
-    let animationFrame;
+    <!-- === PANGUNAHING MENU — TINANGGAL NA ANG "TINGNAN ANG LARAWAN" === -->
+    <div id="mainMenu">
+        <div style="text-align: center; margin: 20px 0;">
+            <div style="display: inline-block; border-top: 3px solid #ffd700; border-bottom: 3px solid #ffd700; padding: 8px 20px;">
+                <span style="color: #9933ff; font-size: 22px; font-weight: bold;">🎂 PUMILI NG MENU 🍞</span>
+            </div>
+        </div>
+        <a href="#" class="menu-item" onclick="ipakita('pineapple'); return false;">[ 1 ] PINEAPPLE PIE</a>
+        <a href="#" class="menu-item" onclick="ipakita('kababayan'); return false;">[ 2 ] KABABAYAN</a>
+        <a href="#" class="menu-item" onclick="ipakita('torta'); return false;">[ 3 ] TORTA</a>
+        <a href="#" class="menu-item" onclick="ipakita('brownies'); return false;">[ 4 ] BROWNIES ICING</a>
+        <a href="#" class="menu-item" onclick="ipakita('eggpie'); return false;">[ 5 ] EGG PIE</a>
+        <a href="#" class="menu-item" onclick="ipakita('yemma'); return false;">[ 6 ] YEMMA ICING</a>
+        <a href="#" class="menu-item" onclick="ipakita('pabalat'); return false;">[ 7 ] PABALAT NG MALAMBOT</a>
+        <a href="#" class="menu-item" onclick="ipakita('donutpalaman'); return false;">[ 8 ] DONUT PALAMAN</a>
+        <a href="#" class="menu-item" onclick="ipakita('chess'); return false;">[ 9 ] CHESS ROLL</a>
+        <a href="#" class="menu-item" onclick="ipakita('crinkles'); return false;">[ 10 ] CRINKLES</a>
+        <a href="#" class="menu-item" onclick="ipakita('donutchoco'); return false;">[ 11 ] DONUT POWDER CHOCO</a>
+        <a href="#" class="menu-item" onclick="ipakita('donutube'); return false;">[ 12 ] DONUT POWDER UBE</a>
+        <a href="#" class="menu-item" onclick="ipakita('pandesal'); return false;">[ 13 ] PANDESAL</a>
+        <a href="#" class="menu-item" onclick="ipakita('brownies1tray'); return false;">[ 14 ] BROWNIES</a>
+        <a href="#" class="menu-item" onclick="ipakita('cookies'); return false;">[ 15 ] COOKIES</a>
+        <a href="#" class="menu-item" onclick="ipakita('pinagongtigas'); return false;">[ 16 ] PINAGONG TIGAS</a>
+        <a href="#" class="menu-item" onclick="ipakita('lambingan'); return false;">[ 17 ] LAMBINGAN</a>
+        <a href="#" class="menu-item" onclick="ipakita('custardcake'); return false;">[ 18 ] CUSTARD CAKE</a>
+        <a href="#" class="menu-item" onclick="ipakita('pianonorolls'); return false;">[ 19 ] PIANONO ROLLS</a>
+        <a href="#" class="menu-item" onclick="ipakita('lakas'); return false;">[ 20 ] LAKAS/UBE BAR</a>
+        <a href="#" class="menu-item" onclick="ipakita('cupcake'); return false;">[ 21 ] CUP CAKES</a>
+        <a href="#" class="menu-item" onclick="palitMenu('procMenu'); return false;" style="color:#00ffff;">[ Q ] PARAAN NG PAGGAWA</a>
+    </div>
 
-    // --- 1. ORANGE SCALE (1kg Gram Scale matching the Image) ---
-    function draw1KgScale(grams) {
-      const canvas = document.getElementById('scaleCanvas');
-      const ctx = canvas.getContext('2d');
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const radius = 125;
+    <!-- === MENU NG PARAAN NG PAGGAWA === -->
+    <div id="procMenu" style="display:none;">
+        <div style="text-align: center; margin: 20px 0;">
+            <div style="display: inline-block; border-top: 3px solid #ffd700; border-bottom: 3px solid #ffd700; padding: 8px 20px;">
+                <span style="color: #9933ff; font-size: 22px; font-weight: bold;">🍔 PUMILI NG PARAAN NG PAGGAWA 🌭</span>
+            </div>
+        </div>
+        <a href="#" class="menu-item" onclick="ipakita('proc_pine'); return false;">[ 1 ] PINEAPPLE</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_kaba'); return false;">[ 2 ] KABABAYAN</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_tor'); return false;">[ 3 ] TORTA</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_bro'); return false;">[ 4 ] BROWNIES ICING</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_egg'); return false;">[ 5 ] EGG PIE</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_yem'); return false;">[ 6 ] YEMMA ICING</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_pab'); return false;">[ 7 ] PABALAT NG MALAMBOT</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_donpal'); return false;">[ 8 ] DONUT PALAMAN</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_che'); return false;">[ 9 ] CHESS ROLL</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_crin'); return false;">[ 10 ] CRINKLES</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_doncho'); return false;">[ 11 ] DONUT POWDER CHOCO</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_donub'); return false;">[ 12 ] DONUT POWDER UBE</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_pan'); return false;">[ 13 ] PANDESAL</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_brow'); return false;">[ 14 ] BROWNIES</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_cook'); return false;">[ 15 ] COOKIES</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_pin'); return false;">[ 16 ] PINAGONG TIGAS</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_lamb'); return false;">[ 17 ] LAMBINGAN</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_custrd'); return false;">[ 18 ] CUSTARD CAKE</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_pianorol'); return false;">[ 19 ] PIANONO ROLLS</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_strong'); return false;">[ 20 ] LAKAS/UBE BAR</a>
+        <a href="#" class="menu-item" onclick="ipakita('proc_cupck'); return false;">[ 21 ] CUP CAKES</a>
+        <a href="#" class="menu-item" onclick="palitMenu('mainMenu'); return false;" style="color:cyan;">[ R ] BALIK SA MENU</a>
+        <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Dial Base
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = '#fefefe';
-      ctx.fill();
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = '#d0d0d0';
-      ctx.stroke();
-
-      // Green Target Highlight Arc
-      let targetAngle = (targetWeight / 1000) * (2 * Math.PI) - (Math.PI / 2);
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius - 18, targetAngle - 0.12, targetAngle + 0.12);
-      ctx.lineWidth = 16;
-      ctx.strokeStyle = 'rgba(40, 167, 69, 0.45)';
-      ctx.stroke();
-
-      // Tick marks (200 ticks total, 5g each)
-      for (let i = 0; i < 200; i++) {
-        let angle = (i / 200) * (2 * Math.PI) - (Math.PI / 2);
-        let val = i * 5;
-        let isMajor = (val % 250 === 0);
-        let isMedium = (val % 50 === 0 && !isMajor);
-
-        let tickLen = isMajor ? 14 : (isMedium ? 9 : 5);
-
-        let x1 = centerX + Math.cos(angle) * (radius - 4);
-        let y1 = centerY + Math.sin(angle) * (radius - 4);
-        let x2 = centerX + Math.cos(angle) * (radius - 4 - tickLen);
-        let y2 = centerY + Math.sin(angle) * (radius - 4 - tickLen);
-
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.lineWidth = isMajor ? 2.5 : (isMedium ? 1.5 : 1);
-        ctx.strokeStyle = '#222';
-        ctx.stroke();
-
-        // Labels matching image: Large 250, 500, 750; Medium 50, 100, 150...
-        if (isMajor) {
-          let textX = centerX + Math.cos(angle) * (radius - 32);
-          let textY = centerY + Math.sin(angle) * (radius - 32);
-
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillStyle = '#111';
-          ctx.font = 'bold 20px Arial';
-          ctx.fillText(val === 0 ? 'g' : val.toString(), textX, textY);
-        } else if (isMedium) {
-          let textX = centerX + Math.cos(angle) * (radius - 24);
-          let textY = centerY + Math.sin(angle) * (radius - 24);
-
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillStyle = '#333';
-          ctx.font = 'bold 11px Arial';
-          ctx.fillText(val.toString(), textX, textY);
-        }
-      }
-
-      ctx.font = 'bold 10px Arial';
-      ctx.fillStyle = '#666';
-      ctx.textAlign = 'center';
-      ctx.fillText('CAP. 1kg   GRAD. 5g', centerX, centerY + 45);
-
-      // Red Needle with Bulb Center
-      let needleAngle = (grams / 1000) * (2 * Math.PI);
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.rotate(needleAngle);
-
-      ctx.beginPath();
-      ctx.moveTo(0, 15);
-      ctx.lineTo(-4, 0);
-      ctx.lineTo(-1.5, -(radius - 12));
-      ctx.lineTo(1.5, -(radius - 12));
-      ctx.lineTo(4, 0);
-      ctx.closePath();
-      ctx.fillStyle = '#e60000';
-      ctx.fill();
-
-      // Needle Bulb Center
-      ctx.beginPath();
-      ctx.arc(0, 0, 14, 0, 2 * Math.PI);
-      ctx.fillStyle = '#e60000';
-      ctx.fill();
-
-      ctx.restore();
-    }
-
-    function animateGramNeedle() {
-      let diff = targetWeight - currentWeight;
-      if (Math.abs(diff) > 0.5) {
-        currentWeight += diff * 0.1;
-        draw1KgScale(currentWeight);
-        animationFrame = requestAnimationFrame(animateGramNeedle);
-      } else {
-        currentWeight = targetWeight;
-        draw1KgScale(currentWeight);
-      }
-    }
-
-    function showGramScale(grams, ingredientName) {
-      let modalContent = document.getElementById('modalContent');
-      modalContent.style.backgroundColor = '#ff7700'; // Orange
-      modalContent.style.borderColor = '#cc5500';
-
-      document.getElementById('scaleModal').style.display = 'flex';
-      document.getElementById('scaleCanvas').style.display = 'block';
-      document.getElementById('iconsGrid').style.display = 'none';
-
-      document.getElementById('ingredient-title').innerText = ingredientName;
-      document.getElementById('display-text').innerText = grams + ' grams';
-
-      let note = document.getElementById('conversionNote');
-      note.innerText = `🟢 Tumingin sa GREEN ZONE sa timbangan.\nKapag tumapat doon ang pulang karayom, TAMA NA!`;
-      note.style.display = 'block';
-
-      currentWeight = 0;
-      targetWeight = grams;
-      cancelAnimationFrame(animationFrame);
-      animateGramNeedle();
-    }
-
-    // --- 2. BLUE SCALE (10kg Master Scale matching Image) ---
-    function draw10KgScale(canvasId, targetKilos) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const radius = canvas.width / 2 - 10;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = '#333';
-      ctx.stroke();
-
-      // Green Target Area
-      let targetArcAngle = (targetKilos / 10) * (2 * Math.PI) - (Math.PI / 2);
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius - 15, targetArcAngle - 0.15, targetArcAngle + 0.15);
-      ctx.lineWidth = 14;
-      ctx.strokeStyle = 'rgba(40, 167, 69, 0.45)';
-      ctx.stroke();
-
-      // Numbers 1 to 10 and Ticks
-      for (let i = 0; i < 10; i++) {
-        let angle = (i / 10) * (2 * Math.PI) - (Math.PI / 2);
+    <!-- === RESIPE: PINEAPPLE PIE — MAY LARAWAN SA TAAS === -->
+    <div id="pineapple" class="resipe-box">
         
-        // Draw Number
-        let textX = centerX + Math.cos(angle) * (radius - 24);
-        let textY = centerY + Math.sin(angle) * (radius - 24);
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Pineapple_pie.jpg" 
+                 alt="Pineapple Pie" class="litrato">
+        </div>
+        <h2>🍍 PINEAPPLE PIE 1 TRAY</h2>
+        <div class="bahagi">
+            <h3>PABALAT</h3>
+            <div class="sangkap"><span>1st class</span><span>650 g</span></div>
+            <div class="sangkap"><span>3rd class</span><span>100 g</span></div>
+            <div class="sangkap"><span>Asukal</span><span>150 g</span></div>
+            <div class="sangkap"><span>Asin</span><span>8 g</span></div>
+            <div class="sangkap"><span>Yeast</span><span>1/2 tbsp</span></div>
+            <div class="sangkap"><span>Baking</span><span>1/2 tbsp</span></div>
+            <div class="sangkap"><span>Tubig</span><span>3/4 can</span></div>
+            <div class="sangkap"><span>Lard</span><span>25 g</span></div>
+            <div class="sangkap"><span>Margarine</span><span>12 g</span></div>
+        </div>
+        <div class="bahagi">
+            <h3>PALAMAN</h3>
+            <div class="sangkap"><span>Asukal</span><span>400 g</span></div>
+            <div class="sangkap"><span>Food color</span><span>Lemon yellow</span></div>
+            <div class="sangkap"><span>Tubig</span><span>4 1/2 can</span></div>
+            <div class="sangkap"><span>Pineapple tang</span><span>1/2 pack</span></div>
+            <div class="sangkap"><span>Margarine</span><span>50 g</span></div>
+        </div>
+        <div class="bahagi">
+            <h3>MIXTURE</h3>
+            <div class="sangkap"><span>Cornstarch</span><span>350 g</span></div>
+            <div class="sangkap"><span>Tubig</span><span>1 1/2 can</span></div>
+        </div>
+        <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+        <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
 
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = '#000';
-        ctx.font = 'bold 16px Arial';
-        ctx.fillText(i === 0 ? '0' : i.toString(), textX, textY);
+    <!-- === RESIPE: KABABAYAN — MAY LARAWAN SA TAAS === -->
+    <div id="kababayan" class="resipe-box">
+        <h2>🥖 KABABAYAN</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Kababayan.jpg" 
+                 alt="Kababayan" class="litrato">
+        </div>
 
-        // Sub-divisions (1/4, 1/2, 3/4)
-        for (let j = 1; j < 4; j++) {
-          let subAngle = angle + (j / 4) * (2 * Math.PI / 10);
-          let fracText = j === 1 ? '1/4' : (j === 2 ? '1/2' : '3/4');
-          
-          let fracX = centerX + Math.cos(subAngle) * (radius - 12);
-          let fracY = centerY + Math.sin(subAngle) * (radius - 12);
-          
-          ctx.font = '8px Arial';
-          ctx.fillStyle = '#b30000';
-          ctx.fillText(fracText, fracX, fracY);
-        }
-      }
+        <div class="sangkap"><span>Asukal</span><span>700 g</span></div>
+        <div class="sangkap"><span>Baking calumet</span><span>2 tbsp</span></div>
+        <div class="sangkap"><span>Baking soda</span><span>1/4 tbsp</span></div>
+        <div class="sangkap"><span>Food color</span><span>Egg yellow</span></div>
+        <div class="sangkap"><span>Eggs</span><span>1 pc</span></div>
+        <div class="sangkap"><span>Vanilla</span><span>-</span></div>
+        <div class="sangkap"><span>Evap.</span><span>1/2 can</span></div>
+        <div class="sangkap"><span>Tubig</span><span>2 can</span></div>
+        <div class="sangkap"><span>Oil</span><span>1/2 can</span></div>
+        <div class="sangkap"><span>3rd class</span><span>1 kl</span></div>
+        <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+        <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
 
-      ctx.font = 'bold 8px Arial';
-      ctx.fillStyle = '#555';
-      ctx.textAlign = 'center';
-      ctx.fillText('10kg SCALE', centerX, centerY + 30);
+    <!-- === RESIPE: TORTA — MAY LARAWAN SA TAAS === -->
+    <div id="torta" class="resipe-box">
+        <h2>🥖 TORTA</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Torta.jpg" 
+                 alt="torta" class="litrato">
+        </div>
 
-      // Needle Rotation (Tumatapat sa 10/0 kapag targetKilos = 10)
-      let needleRotation = (targetKilos / 10) * (2 * Math.PI);
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.rotate(needleRotation);
+    <div class="sangkap"><span>Asukal</span><span>550 g</span></div>
+    <div class="sangkap"><span>Baking calumet</span><span>2 1/2 tbsp</span></div>
+    <div class="sangkap"><span>Skim milk</span><span>-</span></div>
+    <div class="sangkap"><span>Vanilla</span><span>-</span></div>
+    <div class="sangkap"><span>Evap.</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>Tubig</span><span>1 1/4 can</span></div>
+    <div class="sangkap"><span>Lard</span><span>50 g</span></div>
+    <div class="sangkap"><span>Margarine</span><span>25 g</span></div>
+    <div class="sangkap"><span>Oil</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>3rd class</span><span>1 kl</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+</div>
 
-      ctx.beginPath();
-      ctx.moveTo(0, 10);
-      ctx.lineTo(-3, 0);
-      ctx.lineTo(-1, -(radius - 12));
-      ctx.lineTo(1, -(radius - 12));
-      ctx.lineTo(3, 0);
-      ctx.closePath();
-      ctx.fillStyle = '#d91e18';
-      ctx.fill();
+<!-- === RESIPE: BROWNIES ICING — MAY LARAWAN SA TAAS === -->
+    <div id="brownies" class="resipe-box">
+        <h2>🥖 BROWNIES ICING</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
 
-      ctx.beginPath();
-      ctx.arc(0, 0, 6, 0, 2 * Math.PI);
-      ctx.fillStyle = '#990000';
-      ctx.fill();
+    <div class="sangkap"><span>Sugar</span><span>3 tbsp</span></div>
+    <div class="sangkap"><span>3rd class</span><span>1 tbsp</span></div>
+    <div class="sangkap"><span>Skim milk</span><span>1 tbsp</span></div>
+    <div class="sangkap"><span>Margarine</span><span>1 tbsp</span></div>
+    <div class="sangkap"><span>Cocoa</span><span>1 tbsp</span></div>
+    <div class="sangkap"><span>Oil</span><span>-</span></div>
+    <div class="sangkap"><span>Evap</span><span>-</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+</div>
 
-      ctx.restore();
+<!-- === RESIPE: EGG PIE — MAY LARAWAN SA TAAS === -->
+    <div id="eggpie" class="resipe-box">
+        <h2>🥖 EGG PIE (3 plates, 10 slice, size 8")</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Egg_pie.jpg" 
+                 alt="eggpie" class="litrato">
+        </div>
+    <div class="bahagi">
+        <h3>PABALAT</h3>
+        <div class="sangkap"><span>3rd class</span><span>600 g</span></div>
+        <div class="sangkap"><span>Asukal</span><span>200 g</span></div>
+        <div class="sangkap"><span>Lard</span><span>50 g</span></div>
+        <div class="sangkap"><span>Margarine</span><span>150 g</span></div>
+        <div class="sangkap"><span>Itlog</span><span>1 pc</span></div>
+        <div class="sangkap"><span>Evap</span><span>-</span></div>
+    </div>
+    <div class="bahagi">
+        <h3>PALAMAN</h3>
+        <div class="sangkap"><span>Water</span><span>2 3/4 cup</span></div>
+        <div class="sangkap"><span>Eggs</span><span>7 pcs</span></div>
+        <div class="sangkap"><span>Sodium benzoate(optional)</span><span>0.8 g / 1/8 tsp</span></div>
+    </div>
+    <div class="bahagi">
+        <h3>MIXTURE</h3>
+        <div class="sangkap"><span>Milk buy</span><span>500 g</span></div>
+        <div class="sangkap"><span>Sugar</span><span>250 g</span></div>
+    </div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+</div>
+
+    <!-- === RESIPE: YEMMA ICING — MAY LARAWAN SA TAAS === -->
+    <div id="yemma" class="resipe-box">
+        <h2>🥖 YEMMA ICING</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+    <div class="sangkap"><span>Evaporada</span><span>1 can</span></div>
+    <div class="sangkap"><span>Cornstarch</span><span>2 tbsp</span></div>
+    <div class="sangkap"><span>Sugar</span><span>200 g</span></div>
+    <div class="sangkap"><span>Eggyolk</span><span>4 pcs</span></div>
+    <div class="sangkap"><span>Butter</span><span>1/4</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+</div>
+
+<!-- ============= RESIPE: PABALAT NG MALAMBOT — MAY LARAWAN SA TAAS ===================== -->
+    <div id="pabalat" class="resipe-box">
+        <h2>🥖 PABALAT NG MALAMBOT</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+
+    <div class="sangkap"><span>1st class</span><span>4 kls</span></div>
+    <div class="sangkap"><span>Sugar</span><span>650 g</span></div>
+    <div class="sangkap"><span>Salt</span><span>50 g</span></div>
+    <div class="sangkap"><span>Yeast</span><span>4 tbsp</span></div>
+    <div class="sangkap"><span>Water</span><span>5 can</span></div>
+    <div class="sangkap"><span>Lard</span><span>150 g</span></div>
+    <div class="sangkap"><span>Margarine</span><span>50 g</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+</div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: DONUT PALAMAN — MAY LARAWAN SA TAAS ===================== -->
+    <div id="donutpalaman" class="resipe-box">
+        <h2>🥖 DONUT PALAMAN</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+
+    <div class="sangkap"><span>Sugar</span><span>350 g</span></div>
+    <div class="sangkap"><span>Oil</span><span>kaunti/pweding wala</span></div>
+    <div class="sangkap"><span>Food color</span><span>chocolate/violet</span></div>
+    <div class="sangkap"><span>Flavocol</span><span>chocolate/violet</span></div>
+    <div class="sangkap"><span>Evap</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>Water</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>Margarine</span><span>30 g</span></div>
+    <div class="sangkap"><span>3rd class</span><span>1/2 kl</span></div>
+        <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+</div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: CHESS ROLL — MAY LARAWAN SA TAAS ===================== -->
+    <div id="chess" class="resipe-box">
+        <h2>🥖 CHESS ROLL</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+
+    <div class="sangkap"><span>3rd class</span><span>100 g</span></div>
+    <div class="sangkap"><span>1st class</span><span>900 g</span></div>
+    <div class="sangkap"><span>Sugar</span><span>1/4 kl</span></div>
+    <div class="sangkap"><span>Salt</span><span>12 g</span></div>
+    <div class="sangkap"><span>Yeast</span><span>1 1/2 tbsp</span></div>
+    <div class="sangkap"><span>Baking calumet</span><span>3/4 tbsp</span></div>
+    <div class="sangkap"><span>Evaporada</span><span>1/8 can</span></div>
+    <div class="sangkap"><span>Vanilla</span><span>-</span></div>
+    <div class="sangkap"><span>Water</span><span>1 can</span></div>
+    <div class="sangkap"><span>Lard</span><span>35 g</span></div>
+    <div class="sangkap"><span>Margarine</span><span>15 g</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+
+    <!-- ============= RESIPE: CRINKLES — MAY LARAWAN SA TAAS ===================== -->
+    <div id="crinkles" class="resipe-box">
+        <h2>🥖 CRINKLES</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+
+     <div class="sangkap"><span>Sugar</span><span>650 g</span></div>
+    <div class="sangkap"><span>Baking calumet</span><span>1 tbsp</span></div>
+    <div class="sangkap"><span>Baking soda</span><span>1/4 tbsp</span></div>
+    <div class="sangkap"><span>Cocoa powder orig.</span><span>100 g</span></div>
+    <div class="sangkap"><span>Flavocol</span><span>-</span></div>
+    <div class="sangkap"><span>Evap</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>Water</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>3rd class</span><span>100 g</span></div>
+    <div class="sangkap"><span>1st class</span><span>450 g</span></div>
+    <div class="sangkap"><span>Margarine</span><span>200 g</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: DONUT POWDER CHOCO — MAY LARAWAN SA TAAS ===================== -->
+    <div id="donutchoco" class="resipe-box">
+        <h2>🥖 DONUT POWDER CHOCO</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+
+     <div class="sangkap"><span>Skim milk</span><span>200 g</span></div>
+    <div class="sangkap"><span>Milk buy</span><span>50 g</span></div>
+    <div class="sangkap"><span>Peotracco</span><span>60 g</span></div>
+    <div class="sangkap"><span>Cocoa pow. orig.</span><span>2 tbsp</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: DONUT POWDER UBE — MAY LARAWAN SA TAAS ===================== -->
+    <div id="donutube" class="resipe-box">
+        <h2>🥖 DONUT POWDER UBE</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+
+    <div class="sangkap"><span>Skim milk</span><span>200 g</span></div>
+    <div class="sangkap"><span>Milk buy</span><span>50 g</span></div>
+    <div class="sangkap"><span>Peotracco</span><span>50 g</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: PANDESAL — MAY LARAWAN SA TAAS ===================== -->
+    <div id="pandesal" class="resipe-box">
+        <h2>🥖 PANDESAL</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Pandesal.jpg" 
+                 alt="pandesal" class="litrato">
+        </div>
+
+    <div class="sangkap"><span>1st class</span><span>2 kl</span></div>
+    <div class="sangkap"><span>Malunggay</span><span>-</span></div>
+    <div class="sangkap"><span>Sugar</span><span>1/2 kl</span></div>
+    <div class="sangkap"><span>Milk buy</span><span>2 tbsp</span></div>
+    <div class="sangkap"><span>Skim milk</span><span>-</span></div>
+    <div class="sangkap"><span>Asin</span><span>30 g</span></div>
+    <div class="sangkap"><span>Yeast</span><span>1/2 tbsp</span></div>
+    <div class="sangkap"><span>Oil</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>Butter</span><span>-</span></div>
+    <div class="sangkap"><span>Margarine</span><span>50 g</span></div>
+    <div class="sangkap"><span>Water</span><span>2 can</span></div>
+    <div class="sangkap"><span>Evap</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>Vanilla</span><span>-</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: BROWNIES 1 TRAY — MAY LARAWAN SA TAAS ===================== -->
+    <div id="brownies1tray" class="resipe-box">
+        <h2>🥖 BROWNIES 1 TRAY</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Brownies.jpg" 
+                 alt="Brownies" class="litrato">
+        </div>
+
+     <div class="sangkap"><span>Sugar</span><span>350 g</span></div>
+    <div class="sangkap"><span>Baking calumet</span><span>1 tbsp</span></div>
+    <div class="sangkap"><span>Yeast</span><span>1/2 tbsp</span></div>
+    <div class="sangkap"><span>Food color</span><span>Chocolate brown</span></div>
+    <div class="sangkap"><span>Oil</span><span>1/4 can</span></div>
+    <div class="sangkap"><span>evap</span><span>-</span></div>
+    <div class="sangkap"><span>Water</span><span>1 1/2 can</span></div>
+    <div class="sangkap"><span>1st class</span><span>700 g</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: COOKIES — MAY LARAWAN SA TAAS ===================== -->
+    <div id="cookies" class="resipe-box">
+        <h2>🥖 COOKIES</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+       <div class="bahagi">
+         <h3>COOKIES</h3>
+         <div class="sangkap"><span>3rd class</span><span>1 1/4 kg</span></div>
+         <div class="sangkap"><span>Skim milkt</span><span>250 g</span></div>
+         <div class="sangkap"><span>Sugar</span><span>700 g</span></div>
+         <div class="sangkap"><span>Baking calumet</span></span><span>1 1/2 tbsp</span></div>
+         <div class="sangkap"><span>Baking soda</span><span>1/4 tbsp</span></div>
+         <div class="sangkap"><span>Egg</span><span>1 pc</span></div>
+         <div class="sangkap"><span>Evap</span><span>1/2 can</span></div>
+         <div class="sangkap"><span>Water</span><span>1/4 can</span></div>
+         <div class="sangkap"><span>Vanilla</span><span>-</span></div>
+         <div class="sangkap"><span>Lard</span><span>100 g</span></div>
+         <div class="sangkap"><span>Margarine</span><span>150 g</span></div>
+     </div>    
+     <div class="bahagi">
+         <h3>TOPPINGS:</h3>
+         <div class="sangkap"><span>Chocolate</span><span>-</span></div>
+     </div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: PINAGONG TIGAS — MAY LARAWAN SA TAAS ===================== -->
+    <div id="pinagongtigas" class="resipe-box">
+        
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Pinagong.jpg" 
+                 alt="pinagong" class="litrato">
+        </div>
+          <h2>🥖 PINAGONG TIGAS</h2>
+         <div class="bahagi">
+         <h3>PINAGONG</h3>
+         <div class="sangkap"><span>3rd class</span><span>1 kl</span></div>
+         <div class="sangkap"><span>Sugar</span><span>250 g</span></div>
+         <div class="sangkap"><span>Salt</span><span>12 g</span></div>
+         <div class="sangkap"><span>Baking calumet</span></span><span>1 tbsp</span></div>
+         <div class="sangkap"><span>Vanilla</span><span>-</span></div>
+         <div class="sangkap"><span>Evap</span><span>-</span></div>
+         <div class="sangkap"><span>Water</span><span>3/4 can</span></div>
+         <div class="sangkap"><span>Lard</span><span>30 g</span></div>
+         <div class="sangkap"><span>Margarine</span><span>20 g</span></div>
+         </div> 
+         <div class="bahagi">
+         <h3>MASA/MOTHER DOUGH:</h3>
+         <div class="sangkap"><span>Masa/mother dough</span><span>400 g</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+<!--================================================================================================-->
+
+<!-- ============= RESIPE: LAMBINGAN — MAY LARAWAN SA TAAS ===================== -->
+    <div id="lambingan" class="resipe-box">
+        <h2>🥖 LAMBINGAN</h2>
+        
+        <!-- ✅ LARAWAN SA TAAS NG SANGKAP -->
+        <div class="larawan-resipe">
+            <img src="empty" 
+                 alt="wala pang larawan" class="litrato">
+        </div>
+       
+    <div class="sangkap"><span>Sugar</span><span>700 g</span></div>
+    <div class="sangkap"><span>Baking calumet</span><span>1 tbsp</span></div>
+    <div class="sangkap"><span>FLAVOCOL</span><span>-</span></div>
+    <div class="sangkap"><span>Food color</span><span>Violet</span></div>
+    <div class="sangkap"><span>Evap</span><span>1/8 can</span></div>
+    <div class="sangkap"><span>Water</span><span>1 1/2 can</span></div>
+    <div class="sangkap"><span>Oil</span><span>1/8 can</span></div>
+    <div class="sangkap"><span>Lard</span><span>100 g</span></div>
+    <div class="sangkap"><span>Margarine</span><span>50 g</span></div>
+    <div class="sangkap"><span>3rd class</span><span>1 kilo</span></div>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+    
+<script>
+//==============exit==button============================================================================
+    function kungGustoUmalis() {
+    if (confirm('Sigurado ka bang gusto mo nang umalis? Mawawala ang iyong kasalukuyang tinitingnan!')) {
+        // Kung "Oo" — aalisin; kung "Hindi" — mananatili
+        window.removeEventListener('beforeunload', function(){});
+        history.back(); // o kaya: window.close();
     }
-
-    // --- 3. DUAL SCALE DISPLAY FOR 10.5 KG ---
-    function showKiloScale(kilos, ingredientName) {
-      let modalContent = document.getElementById('modalContent');
-      modalContent.style.backgroundColor = '#0066cc'; // Blue Casing
-      modalContent.style.borderColor = '#004499';
-
-      let totalGrams = kilos * 1000;
-      let fullKilos = Math.floor(kilos); // 10 kg
-      let remainingGrams = totalGrams - (fullKilos * 1000); // 500 g
-
-      document.getElementById('scaleModal').style.display = 'flex';
-      document.getElementById('scaleCanvas').style.display = 'none';
-      
-      let grid = document.getElementById('iconsGrid');
-      grid.style.display = 'flex';
-      grid.innerHTML = ''; 
-
-      document.getElementById('ingredient-title').innerText = ingredientName;
-      document.getElementById('display-text').innerText = fullKilos + ' Kilo + ' + remainingGrams + ' Gramo';
-
-      // 1. Blue Scale (10kg)
-      let mainKiloBox = document.createElement('div');
-      mainKiloBox.style.textAlign = 'center';
-      mainKiloBox.innerHTML = `
-        <canvas id="kiloCanvas10" width="150" height="150"></canvas>
-        <div style="color:#000; font-size:11px; margin-top:4px; font-weight:bold;">BLUE SCALE (MALAKI)<br>10 Kilo (Sagad)</div>
-      `;
-      grid.appendChild(mainKiloBox);
-
-      // 2. Orange Scale (500g / Kalahating Kilo)
-      if (remainingGrams > 0) {
-        let gramBox = document.createElement('div');
-        gramBox.style.textAlign = 'center';
-        gramBox.innerHTML = `
-          <canvas id="gramCanvasRem" width="150" height="150"></canvas>
-          <div style="color:#000; font-size:11px; margin-top:4px; font-weight:bold;">ORANGE SCALE (MALIIT)<br>${remainingGrams}g (Kalahati)</div>
-        `;
-        grid.appendChild(gramBox);
-      }
-
-      setTimeout(() => {
-        draw10KgScale('kiloCanvas10', 10);
-        if (remainingGrams > 0) {
-          drawCustomGramScale('gramCanvasRem', remainingGrams);
-        }
-      }, 100);
-
-      let note = document.getElementById('conversionNote');
-      note.style.display = 'block';
-      note.innerText = `💡 PAANO TIMBANGIN:\n1️⃣ Patimbangin ang 10 Kilo sa Malaking Asul na Timbangan.\n2️⃣ Isunod ang natitirang 500g (Kalahating kilo) sa Orange Timbangan.`;
+}
+//====================================================================================================
+// TEKSTONG GUMAGALAW
+const teksto = document.getElementById('teksto');
+let posisyon = window.innerWidth;
+const bilis = 1.5;
+function ilipat() {
+    posisyon -= bilis;
+    teksto.style.left = posisyon + 'px';
+    if (posisyon < -teksto.offsetWidth) {
+        posisyon = window.innerWidth;
     }
+    requestAnimationFrame(ilipat);
+}
+ilipat();
 
-    // Naayos na Grammer Scale Dial (Kumpletong 1kg Capacity / Grad. 5g)
-    function drawCustomGramScale(canvasId, grams) {
-      const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const radius = canvas.width / 2 - 8;
+let aktibongMenu = 'mainMenu';
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+function itagoLahat() {
+    document.getElementById('mainMenu').style.display = 'none';
+    document.getElementById('procMenu').style.display = 'none';
+    document.querySelectorAll('.resipe-box').forEach(b => b.style.display = 'none');
+}
 
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-      ctx.fillStyle = '#ffffff';
-      ctx.fill();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = '#ccc';
-      ctx.stroke();
+function palitMenu(alin) {
+    itagoLahat();
+    document.getElementById(alin).style.display = 'block';
+    aktibongMenu = alin;
+}
 
-      // Green Target Highlight
-      let targetArcAngle = (grams / 1000) * (2 * Math.PI) - (Math.PI / 2);
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, radius - 10, targetArcAngle - 0.15, targetArcAngle + 0.15);
-      ctx.lineWidth = 10;
-      ctx.strokeStyle = 'rgba(40, 167, 69, 0.45)';
-      ctx.stroke();
+function ipakita(alin) {
+    itagoLahat();
+    document.getElementById(alin).style.display = 'block';
+}
 
-      // Ticks at Numbers para sa 1kg / Grad 5g
-      for (let i = 0; i < 100; i += 2) {
-        let angle = (i / 100) * (2 * Math.PI) - (Math.PI / 2);
-        let val = i * 10; 
-        let isMajor = (val % 250 === 0);
-        let isMedium = (val % 50 === 0 && !isMajor);
+function ibalik() {
+    itagoLahat();
+    document.getElementById('mainMenu').style.display = 'block';
+    aktibongMenu = 'mainMenu';
+}
 
-        let tickLen = isMajor ? 8 : (isMedium ? 5 : 3);
+function ibalikProc() {
+    itagoLahat();
+    document.getElementById('procMenu').style.display = 'block';
+    aktibongMenu = 'procMenu';
+}
 
-        let x1 = centerX + Math.cos(angle) * (radius - 2);
-        let y1 = centerY + Math.sin(angle) * (radius - 2);
-        let x2 = centerX + Math.cos(angle) * (radius - 2 - tickLen);
-        let y2 = centerY + Math.sin(angle) * (radius - 2 - tickLen);
-
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.lineWidth = isMajor ? 2 : 1;
-        ctx.strokeStyle = '#333';
-        ctx.stroke();
-
-        if (isMajor) {
-          let textX = centerX + Math.cos(angle) * (radius - 18);
-          let textY = centerY + Math.sin(angle) * (radius - 18);
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillStyle = '#000';
-          ctx.font = 'bold 11px Arial';
-          ctx.fillText(val === 0 ? '0' : val.toString(), textX, textY);
-        }
-      }
-
-      ctx.font = 'bold 7px Arial';
-      ctx.fillStyle = '#666';
-      ctx.textAlign = 'center';
-      ctx.fillText('CAP. 1kg   GRAD. 5g', centerX, centerY + 25);
-
-      // Needle Rotation (Tumatapat sa 500g pababa kapag grams = 500)
-      let needleRotation = (grams / 1000) * (2 * Math.PI);
-      ctx.save();
-      ctx.translate(centerX, centerY);
-      ctx.rotate(needleRotation);
-
-      ctx.beginPath();
-      ctx.moveTo(0, 8);
-      ctx.lineTo(-3, 0);
-      ctx.lineTo(-1, -(radius - 10));
-      ctx.lineTo(1, -(radius - 10));
-      ctx.lineTo(3, 0);
-      ctx.closePath();
-      ctx.fillStyle = '#d91e18';
-      ctx.fill();
-
-      ctx.beginPath();
-      ctx.arc(0, 0, 5, 0, 2 * Math.PI);
-      ctx.fillStyle = '#990000';
-      ctx.fill();
-
-      ctx.restore();
-    }
-
-    // --- 4. MULTI-CONTAINER / LIQUID UNITS ---
-    function showMultiVolume(amount, unit, ingredientName) {
-      let modalContent = document.getElementById('modalContent');
-      modalContent.style.backgroundColor = '#28a745'; // Green
-      modalContent.style.borderColor = '#1e7e34';
-
-      document.getElementById('scaleModal').style.display = 'flex';
-      document.getElementById('scaleCanvas').style.display = 'none';
-      
-      let grid = document.getElementById('iconsGrid');
-      grid.style.display = 'flex';
-      grid.innerHTML = ''; 
-
-      document.getElementById('ingredient-title').innerText = ingredientName;
-
-      let fullCount = Math.floor(amount); 
-      let remainder = amount - fullCount; 
-
-      for (let i = 0; i < fullCount; i++) {
-        grid.appendChild(createUnitBox(100, unit, 'BUO (' + (i + 1) + ')'));
-      }
-
-      if (remainder > 0) {
-        let percent = remainder * 100;
-        let fracLabel = remainder === 0.5 ? 'KALAHATI (1/2)' : (remainder === 0.25 ? '1/4' : (remainder === 0.75 ? '3/4' : remainder));
-        grid.appendChild(createUnitBox(percent, unit, fracLabel));
-      }
-
-      let textAmount = amount;
-      if (amount === 0.5) textAmount = "Kalahating (1/2)";
-      if (amount === 0.75) textAmount = "3/4 (Tatlong Kapat)";
-      if (amount === 4.5) textAmount = "4 at Kalahating (4 1/2)";
-
-      document.getElementById('display-text').innerText = textAmount + ' ' + unit;
-
-      let note = document.getElementById('conversionNote');
-      note.style.display = 'block';
-
-      if (unit === 'tbsp') {
-        note.innerText = `💡 Gamitin ang Kutsara (tbsp). Punuin nang pantay.`;
-      } else if (unit === 'can') {
-        note.innerText = `💡 Sundin ang kulay dilaw sa lata na nasa itaas.`;
-      } else {
-        note.innerText = `💡 Gamitin ang ${textAmount} ng pakete.`;
-      }
-    }
-
-    function createUnitBox(fillPercent, unit, label) {
-      let box = document.createElement('div');
-      box.className = 'unit-box';
-      
-      let fill = document.createElement('div');
-      fill.className = 'unit-fill';
-      
-      let text = document.createElement('div');
-      text.className = 'unit-label';
-      text.innerText = label;
-
-      box.appendChild(fill);
-      box.appendChild(text);
-
-      setTimeout(() => {
-        fill.style.height = fillPercent + '%';
-      }, 100);
-
-      return box;
-    }
-
-    function closeScale() {
-      document.getElementById('scaleModal').style.display = 'none';
-    }
-
-    window.onclick = function(event) {
-      let modal = document.getElementById('scaleModal');
-      if (event.target == modal) {
-        closeScale();
-      }
-    }
-  </script>
-
+//=======warnig notification button/refresh buton!=================================
+// ✅ BABALA BAGO UMALIS SA PAHINA
+//window.addEventListener('beforeunload', function (e) {
+    // Kung mayroong ginagawa o nais ibalik — lalabas ang babala
+ //   e.preventDefault();
+  //  e.returnValue = 'May hindi pa nakokumpirmang pagbabago! Sigurado ka bang aalis ka na?';
+   // return e.returnValue;
+//});
+//==================================================================================
+</script>
 </body>
 </html>
+
+
+<!--<html>
+<img src="https://github.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/blob/main/Yema_cake.jpg?raw=true" alt="Larawan">
+</html>-->
