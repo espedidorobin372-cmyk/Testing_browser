@@ -33,6 +33,7 @@
             transition: 0.2s;
         }
         .menu-item:hover { background: #5951c4; color: #80d8f7; }
+        
         @keyframes SmoothGradient {
             0%   { background-position: 0% 50%; }
             50%  { background-position: 100% 50%; }
@@ -56,37 +57,50 @@
         }
         .resipe-box h2 { 
             color: #fff; 
-            margin-bottom: 15px; 
+            margin: 15px 0; 
             text-align: center; 
-            font-size: 17px; 
+            font-size: 18px; 
             text-shadow: 1px 1px 3px rgba(0,0,0,0.4); 
         }
-        .bahagi { margin-bottom: 15px; }
-        .bahagi h3 { margin-bottom: 8px; color: #ffeb3b; font-size: 16px; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
+        .bahagi { margin-bottom: 20px; }
+        .bahagi h3 { 
+            margin-bottom: 10px; 
+            color: #ffeb3b; 
+            font-size: 16px; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3); 
+        }
         .sangkap { 
             display: flex; 
             justify-content: space-between; 
             padding: 3px 0; 
             font-size: 15px; 
             background: rgba(0,0,0,0.2);
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 4px;
-            margin: 3px 0;
+            margin: 4px 0;
         }
         .sangkap:hover { color: blue; transform: translateY(-2px); transition: 0.2s; }
         .balik {
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 15px;
             color: #fff;
             text-decoration: none;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border: 1px solid rgba(255,255,255,0.5);
             border-radius: 4px;
             margin: 5px;
             background: rgba(0,0,0,0.3);
         }
         .balik:hover { color: #f9dc5c; border-color: #f9dc5c; background: rgba(0,0,0,0.5); }
-        .proseso { line-height: 1.6; color: #fff; white-space: pre-line; }
+        .proseso { 
+            line-height: 1.8; 
+            color: #fff; 
+            white-space: pre-line;
+            background: rgba(0,0,0,0.15);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 5px;
+        }
         .lugar {
             background: linear-gradient(90deg, #e63946, #ff6b6b);
             color: white;
@@ -106,7 +120,7 @@
         }
         .larawan-resipe {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .litrato {
             width: 100%;
@@ -116,6 +130,10 @@
             border: 2px solid rgba(255,255,255,0.3);
             margin: 0 auto;
             display: block;
+        }
+        /* Espasyo sa pagitan ng Sangkap at Paraan */
+        .paraang-paggawa {
+            margin-top: 30px;
         }
     </style>
 </head>
@@ -128,7 +146,7 @@
     <div id="mainMenu">
         <div style="text-align: center; margin: 20px 0;">
             <div style="display: inline-block; border-top: 3px solid #ffd700; border-bottom: 3px solid #ffd700; padding: 8px 20px;">
-                <span style="color: #9933ff; font-size: 22px; font-weight: bold;">🎂 PUMILI NG MENU 🍞</span>
+                <span style="color: #9933ff; font-size: 22px; font-weight: bold;">🎂 PUMILI NG RESIPE 🍞</span>
             </div>
         </div>
         <a href="#" class="menu-item" onclick="ipakita('pineapple'); return false;">[ 1 ] PINEAPPLE PIE</a>
@@ -152,47 +170,22 @@
         <a href="#" class="menu-item" onclick="ipakita('pianonorolls'); return false;">[ 19 ] PIANONO ROLLS</a>
         <a href="#" class="menu-item" onclick="ipakita('lakas'); return false;">[ 20 ] LAKAS/UBE BAR</a>
         <a href="#" class="menu-item" onclick="ipakita('cupcake'); return false;">[ 21 ] CUP CAKES</a>
-        <a href="#" class="menu-item" onclick="palitMenu('procMenu'); return false;" style="color:#00ffff;">[ Q ] PARAAN NG PAGGAWA</a>
     </div>
 
-    <div id="procMenu" style="display:none;">
-        <div style="text-align: center; margin: 20px 0;">
-            <div style="display: inline-block; border-top: 3px solid #ffd700; border-bottom: 3px solid #ffd700; padding: 8px 20px;">
-                <span style="color: #9933ff; font-size: 22px; font-weight: bold;">🍔 PUMILI NG PARAAN NG PAGGAWA 🌭</span>
-            </div>
-        </div>
-        <a href="#" class="menu-item" onclick="ipakita('proc_pine'); return false;">[ 1 ] PINEAPPLE</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_kaba'); return false;">[ 2 ] KABABAYAN</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_tor'); return false;">[ 3 ] TORTA</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_bro'); return false;">[ 4 ] BROWNIES ICING</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_egg'); return false;">[ 5 ] EGG PIE</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_yem'); return false;">[ 6 ] YEMMA ICING</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_pab'); return false;">[ 7 ] PABALAT NG MALAMBOT</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_donpal'); return false;">[ 8 ] DONUT PALAMAN</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_che'); return false;">[ 9 ] CHESS ROLL</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_crin'); return false;">[ 10 ] CRINKLES</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_doncho'); return false;">[ 11 ] DONUT POWDER CHOCO</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_donub'); return false;">[ 12 ] DONUT POWDER UBE</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_pan'); return false;">[ 13 ] PANDESAL</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_brow'); return false;">[ 14 ] BROWNIES</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_cook'); return false;">[ 15 ] COOKIES</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_pin'); return false;">[ 16 ] PINAGONG TIGAS</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_lamb'); return false;">[ 17 ] LAMBINGAN</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_custrd'); return false;">[ 18 ] CUSTARD CAKE</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_pianorol'); return false;">[ 19 ] PIANONO ROLLS</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_strong'); return false;">[ 20 ] LAKAS/UBE BAR</a>
-        <a href="#" class="menu-item" onclick="ipakita('proc_cupck'); return false;">[ 21 ] CUP CAKES</a>
-        <a href="#" class="menu-item" onclick="palitMenu('mainMenu'); return false;" style="color:cyan;">[ R ] BALIK SA MENU</a>
-        <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
-    </div>
-    
-    <!-- PINEAPPLE PIE -->
+    <!-- ================================================== -->
+    <!-- ✅ PINEAPPLE PIE — KUMPLETO: LARAWAN → PANGALAN → SANGKAP → PARAAN -->
+    <!-- ================================================== -->
     <div id="pineapple" class="resipe-box">
+        <!-- 1. LARAWAN SA TAAS -->
         <div class="larawan-resipe">
             <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Pineapple_pie.jpg" 
                  alt="Pineapple Pie" class="litrato">
         </div>
+
+        <!-- 2. PANGALAN NG RESIPE -->
         <h2>🍍 PINEAPPLE PIE 1 TRAY</h2>
+
+        <!-- 3. MGA SANGKAP -->
         <div class="bahagi">
             <h3>PABALAT</h3>
             <div class="sangkap"><span>1st class</span><span>650 g</span></div>
@@ -205,6 +198,7 @@
             <div class="sangkap"><span>Lard</span><span>25 g</span></div>
             <div class="sangkap"><span>Margarine</span><span>12 g</span></div>
         </div>
+
         <div class="bahagi">
             <h3>PALAMAN</h3>
             <div class="sangkap"><span>Asukal</span><span>400 g</span></div>
@@ -213,30 +207,43 @@
             <div class="sangkap"><span>Pineapple tang</span><span>1/2 pack</span></div>
             <div class="sangkap"><span>Margarine</span><span>50 g</span></div>
         </div>
+
         <div class="bahagi">
             <h3>MIXTURE</h3>
             <div class="sangkap"><span>Cornstarch</span><span>350 g</span></div>
             <div class="sangkap"><span>Tubig</span><span>1 1/2 can</span></div>
         </div>
-        <h2 style="margin-top: 40px;">PARAAN NG PAGGAWA NG PINEAPPLE</h2>
-        <p class="proseso">
-PAGSAMAHIN ANG SANGKAP PARA SA PALAMAN AT IHANDA ANG CORNSTARCH SA LAGAYAN AT WAG MUNANG TUBIGAN,
-HABANG HINDI PA KUMUKULO MAGMASA NG PABALAT AT IHANDA NA SA TRAY,
-AT KAPAG KUMULO NA ANG PALAMAN TUBIGAN NA ANG CORNSTARCH, AT HALUIN ANG KUMUKULONG PALAMAN PAIKOT,
-TAPOS HABANG UMIIKOT SAKA IBUHOS SA KUMUKULONG PALAMAN ANG TINUNAW NA SA TUBIG NA CORNSTARCH,
-AT HALUIN'G MABUTI. PAGKATAPOS ILAGAY NA SA TRAY NA MAY PABALAT, AT ISALANG SA OVEN NA MAY KATAMTAMANG APOY.
-        </p>
+
+        <!-- 4. PARAAN NG PAGGAWA — SA IBABA NG SANGKAP -->
+        <div class="paraang-paggawa">
+            <h2>PARAAN NG PAGGAWA NG PINEAPPLE</h2>
+            <p class="proseso">
+PAGSAMAHIN ANG SANGKAP PARA SA PALAMAN AT IHANDA ANG CORNSTARCH SA LAGAYAN AT WAG MUNANG TUBIGAN.
+HABANG HINDI PA KUMUKULO, MAGMASA NG PABALAT AT IHANDA NA SA TRAY.
+KAPAG KUMULO NA ANG PALAMAN, TUBIGAN NA ANG CORNSTARCH AT HALUIN ANG KUMUKULONG PALAMAN PAIKOT.
+HABANG UMIIKOT, IBUHOS ANG TINUNAW NA SA TUBIG NA CORNSTARCH SA KUMUKULONG PALAMAN AT HALUIN'G MABUTI.
+ILAGAY NA SA TRAY NA MAY PABALAT AT ISALANG SA OVEN NA MAY KATAMTAMANG APOY.
+            </p>
+        </div>
+
         <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
         <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
     </div>
 
-    <!-- KABABAYAN -->
+    <!-- ================================================== -->
+    <!-- ✅ KABABAYAN -->
+    <!-- ================================================== -->
     <div id="kababayan" class="resipe-box">
+        <!-- 1. LARAWAN SA TAAS -->
         <div class="larawan-resipe">
             <img src="https://raw.githubusercontent.com/espedidorobin372-cmyk/TIMPLA-NG-TINAPAY/main/Kababayan.jpg" 
                  alt="Kababayan" class="litrato">
         </div>
+
+        <!-- 2. PANGALAN NG RESIPE -->
         <h2>🥖 KABABAYAN</h2>
+
+        <!-- 3. MGA SANGKAP -->
         <div class="bahagi">
             <h3>SANGKAP</h3>
             <div class="sangkap"><span>Asukal</span><span>700 g</span></div>
@@ -250,9 +257,43 @@ AT HALUIN'G MABUTI. PAGKATAPOS ILAGAY NA SA TRAY NA MAY PABALAT, AT ISALANG SA O
             <div class="sangkap"><span>Oil</span><span>1/2 can</span></div>
             <div class="sangkap"><span>3rd class</span><span>1 kl</span></div>
         </div>
+
+        <!-- 4. PARAAN NG PAGGAWA — SA IBABA NG SANGKAP -->
+        <div class="paraang-paggawa">
+            <h2>PARAAN NG PAGGAWA NG KABABAYAN</h2>
+            <p class="proseso">
+ILAGAY SA LAGAYAN ANG LAHAT NG SANGKAP.
+HALUIN NG MABUTI HANGGANG MAGING MALINAW AT WALANG BULO.
+IHANDA ANG HULMAHAN AT PUNUAN NG PINAGHALO.
+ISALANG SA OVEN NA MAY KATAMTAMANG APOY HANGGANG MAGING GINTONG ANG KULAY.
+            </p>
+        </div>
+
         <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
         <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
     </div>
+
+    <!-- IBA PANG RESIPE — HANDA NA ANG BALANGKAS, ILAGAY NA LANG ANG DETALYE -->
+    <div id="torta" class="resipe-box">
+        <div class="larawan-resipe">
+            <img src="" alt="Torta" class="litrato">
+        </div>
+        <h2>🍰 TORTA</h2>
+        <div class="bahagi">
+            <h3>SANGKAP</h3>
+            <!-- <div class="sangkap"><span>Pangalan</span><span>Dami</span></div> -->
+        </div>
+        <div class="paraang-paggawa">
+            <h2>PARAAN NG PAGGAWA NG TORTA</h2>
+            <p class="proseso">
+ILAGAY DITO ANG MGA HAKBANG...
+            </p>
+        </div>
+        <a href="#" class="balik" onclick="ibalik(); return false;">⬅ BALIK SA MENU</a>
+        <a href="#" class="balik" onclick="kungGustoUmalis(); return false;">🚨 UMALIS SA PAHINA</a>
+    </div>
+
+    <!-- ... katulad na anyo para sa iba pang resipe ... -->
 
     <script>
         function kungGustoUmalis() {
@@ -274,16 +315,9 @@ AT HALUIN'G MABUTI. PAGKATAPOS ILAGAY NA SA TRAY NA MAY PABALAT, AT ISALANG SA O
         }
         ilipat();
 
-        let aktibongMenu = 'mainMenu';
         function itagoLahat() {
             document.getElementById('mainMenu').style.display = 'none';
-            document.getElementById('procMenu').style.display = 'none';
             document.querySelectorAll('.resipe-box').forEach(b => b.style.display = 'none');
-        }
-        function palitMenu(alin) {
-            itagoLahat();
-            document.getElementById(alin).style.display = 'block';
-            aktibongMenu = alin;
         }
         function ipakita(alin) {
             itagoLahat();
@@ -292,12 +326,6 @@ AT HALUIN'G MABUTI. PAGKATAPOS ILAGAY NA SA TRAY NA MAY PABALAT, AT ISALANG SA O
         function ibalik() {
             itagoLahat();
             document.getElementById('mainMenu').style.display = 'block';
-            aktibongMenu = 'mainMenu';
-        }
-        function ibalikProc() {
-            itagoLahat();
-            document.getElementById('procMenu').style.display = 'block';
-            aktibongMenu = 'procMenu';
         }
     </script>
 </body>
