@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="tl-PH">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CODE LIST</title>
+  <link rel="icon" href="D:\PICTURES\PICTURES/AI.jpg" type="image/x-icon">
+  <style>
+    * { /* ✅ APLIKAHIN SA LAHAT — hindi lalampas ang kahon */
+      box-sizing: border-box;
+    }
+    body {
+      border: 4px solid blue;
+      border-radius: 6px;
+      margin: 8px;
+      padding: 16px;
+      max-width: 100%;
+      overflow-x: hidden; /* ✅ Walang pahalang na scroll */
+    }
+    .container {
+      border: 3px solid blue;
+      border-radius: 10px;
+      font-size: 18px;
+      color: brown;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 12px 0;
+      padding: 16px;
+      width: 100%; /* ✅ Sakto lang sa loob */
+    }
+    a:hover { background-color: rgb(255, 0, 0); }
+    h1 { color: blue; font-size: 29px; margin: 8px 0; }
+    p {
+      font-size: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* ✅ AYUSIN ANG PRE AT XMP — hindi na lalampas! */
+    pre, xmp {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+      margin: 0;
+    }
+
+    /* === Pindutan 1 — Ipakita/Itago sa itaas === */
+    #toggleBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #f8bbd0;
+      color: #5d4037;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-bottom: 0;
+    }
+    #toggleBtn:hover {
+      background-color: #f48fb1;
+    }
+
+    .fixed-space-box {
+      min-height: 220px; /* 210px */
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #fff3e0;
+      border: 2px solid #ffcc80;
+      border-radius: 10px;
+      overflow: hidden;
+      width: 100%; /* ✅ Sakto sa loob */
+    }
+
+    .hidden-content {
+      visibility: hidden;
+      opacity: 0;
+      height: 0;
+      transition: all 0.3s ease;
+    }
+
+    .visible-content {
+      visibility: visible;
+      opacity: 1;
+      height: auto;
+      transition: all 0.3s ease;
+    }
+
+    /* === Pindutan 2 — Nakatakip sa ibaba kanan === */
+    .toggle-btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #f8a9b8;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .toggle-btn:hover { background-color: #f6899e; }
+    .content-box {
+      display: none;
+      position: fixed;
+      bottom: 60px;
+      right: 10px;
+      max-width: 90%; /* ✅ Hindi lalampas sa gilid ng screen */
+      padding: 10px;
+      background-color: #b1a7af;
+      border-radius: 6px;
+      z-index: 99;
+    }
+    .content-box pre {
+      margin: 0;
+      font-size: 14px;
+      color: #333;
+      white-space: pre-wrap;
+    }
+    h5, h6 { margin: 0; }
+    
+    /* ✅ Ayusin ang mga link na kahon — hindi lalampas sa maliit na screen */
+    .link-box {
+      display: inline-block;
+      max-width: 100%;
+      margin: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="background-color: #f8a9b8; border-radius: 10px; min-height: 90px; width: 100%;">
+    <pre style="text-align: center; padding: 10px; font-size: 22px;">
+GANITO ANG HTML PARA SA LARAWAN AT PARA
+MAI-POSITION KONG SAAN DAPAT ILAGAY GAMIT ANG CSS
+    </pre>
+  </h1>
+
+  <div class="container">
+    <h1>ITSURA NG HTML PARA SA LARAWAN</h1>
+    <xmp>
+<div class="img-container">
+  <img src="iyong-larawan.jpg" alt="Larawan">
+</div>
+    </xmp>
+  </div>
+
+  <div class="container">
+    <h1>para sa gitna</h1>
+    <xmp>
+.img-container {
+  display: flex;
+  justify-content: center;
+}
+    </xmp>
+  </div>
+
+  <div class="container">
+    <h1>para sa KALIWA</h1>
+    <xmp>
+.img-container {
+  display: flex;
+  justify-content: flex-start;
+}
+    </xmp>
+  </div>
+
+  <div class="container">
+    <h1>para sa KANAN</h1>
+    <xmp>
+.img-container {
+  display: flex;
+  justify-content: flex-end;
+}
+    </xmp>
+  </div>
+
+  <div class="container">
+    <h1>Mula KANAN, ISOG PAKALIWA ng kaunti</h1>
+    <xmp>
+.img-container {
+  display: flex;
+  justify-content: flex-end;
+}
+.img-container img {
+  margin-right: 40px;
+}
+    </xmp>
+  </div>
+
+  <div class="container" style="border: 4px solid black;">
+    <h1>Direkta sa imahe gamit ang margin</h1>
+    <xmp>
+img { display: block; margin: 0 auto; }
+img { display: block; margin-left: auto; margin-right: 30px; }
+    </xmp>
+  </div>
+
+  <div class="container" style="border: 4px dotted rgb(0, 81, 255);">
+    <h1>1 Mga halimbawa:</h1>
+    <xmp>
+justify-content: center;
+align-items: center;
+flex-direction: column;
+justify-content: space-between;
+    </xmp>
+  </div>
+
+  <div class="container" style="border: 4px solid violet;">
+    <h1 style="margin-top: 0;">2 Mga halimbawa:</h1>
+    <div class="container" style="border: 4px solid green; margin: 8px 0;">
+      <xmp>
+.containerx {
+  display: flex;
+  gap: 16px;
+}
+      </xmp>
+    </div>
+    <div class="container" style="border: 4px solid red; margin: 8px 0;">
+      <h1>html</h1>
+      <xmp>
+<div class="containerx">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</div>
+      </xmp>
+    </div>
+  </div>
+
+<div style="border: 2px solid goldenrod; border-radius: 10px; padding: 5px; width: 100%;">
+  <button id="toggleBtn">ITAGO/IPAKITA BUTTON</button>
+  
+  <div class="fixed-space-box">
+    <div id="contentBox" class="hidden-content">
+      <h5>
+<xmp>
+
+  <button class="toggle-btn" onclick="toggleContent()" style="position: fixed; bottom: 10px; right: 10px; font-size: 10px; z-index: 100;">CLICK INFO</button>
+  <div class="content-box" id="infoBox">
+    <h6>
+<pre>
+https://www.dola.com/chat/38418265241960465
+account: robinespedido36@gmail.com
+title: HTML Pre Tag Styling
+PWEDING I-PASTE ANG ADDRESS LINK SA MISMONG ACCOUNT PALITAN LANG ANG LINK NA MAKIKITA SA ADDRESS
+</pre>
+    </h6>
+  </div>
+  </xmp>
+      </h5>
+    </div>
+  </div>
+
+  <div style="padding: 4px 1px; width: 100%;">
+    <pre style="border: 2px dotted gold; border-radius: 10px; padding: 10px;">
+ MULA SA ITAGO/IPAKITA BUTTON AT BOX NA NAGLALAMAN NG TINATAGO AT PINAKIKITA NA CONTENT 
+ ITO ANG CODE PARA SA TAAS NG BOX AT CODE PARA ITAGO ANG CONTENT
+
+.fixed-space-box { min-height: 120px; }
+.hidden-content { visibility: hidden; height: 0; }
+    </pre>
+  </div>
+</div>
+
+  <!-- ✅ Inayos ang mga link — hindi na lalampas sa screen -->
+  <div class="link-box" style="border: 3px solid black; padding: 10px; border-radius: 8px;">
+    <a href="https://www.dola.com/thread/xWsQILVvx528w7Hgd" style="border: 3px solid red; text-decoration: none; font-weight: bold;">click</a> para sa (alignment ng larawan)
+  </div>
+  <div class="link-box" style="border: 3px solid black; padding: 10px; border-radius: 8px;">
+    <a href="https://www.dola.com/thread/xHZ415QjEHGHrZlBG" style="border: 3px solid red; text-decoration: none; font-weight: bold;">click</a> para sa (IPAKITA/ITAGO INFO)
+  </div>
+  <div class="link-box" style="border: 3px solid black; padding: 10px; border-radius: 8px;">
+    <a href="PINDUTAN_BUTTON_3rd-screen.html" style="border: 3px solid red; text-decoration: none; font-weight: bold;">click</a> para sa (3rd screen)
+  </div>
+  <div class="link-box" style="border: 3px solid black; padding: 10px; border-radius: 8px;">
+    <a href="https://www.dola.com/thread/xarEE9ShlHrbJUO2x" style="border: 3px solid red; text-decoration: none; font-weight: bold;">click</a> para sa (KULAY SA LINYA)
+  </div>
+
+  <div class="link-box" style="border: 3px solid black; padding: 10px; border-radius: 8px;">
+    <a href="https://www.dola.com/thread/xYuTxhA6DZy2sYj1R" style="border: 3px solid red; text-decoration: none; font-weight: bold;">click</a> link para sa pinagmulan ng pwedi sa android phone o sa maliit at malaking screen ng device
+  </div>
+
+  <button class="toggle-btn" onclick="toggleContent()" style="position: fixed; bottom: 10px; right: 10px; font-size: 10px; z-index: 100;">CLICK INFO</button>
+  <div class="content-box" id="infoBox">
+    <h6>
+<pre>
+https://www.dola.com/chat/38418265241960465
+account: robinespedido36@gmail.com
+title: HTML Pre Tag Styling
+PWEDING I-PASTE ANG ADDRESS LINK SA MISMONG ACCOUNT PALITAN LANG ANG LINK NA MAKIKITA SA ADDRESS
+</pre>
+    </h6>
+  </div>
+
+  <script>
+    const btn1 = document.getElementById('toggleBtn');
+    const box1 = document.getElementById('contentBox');
+    btn1.addEventListener('click', function() {
+      box1.classList.toggle('hidden-content');
+      box1.classList.toggle('visible-content');
+      btn1.textContent = box1.classList.contains('visible-content') 
+        ? 'Itago ang Impormasyon' 
+        : 'Ipakita ang Impormasyon';
+    });
+
+    function toggleContent() {
+      const box2 = document.getElementById('infoBox');
+      const btn2 = document.querySelector('.toggle-btn');
+      box2.style.display = (box2.style.display === 'block') ? 'none' : 'block';
+      btn2.textContent = (box2.style.display === 'block') ? 'Itago' : 'Ipakita';
+    }
+  </script>
+
+</body>
+</html>
